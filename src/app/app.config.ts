@@ -3,10 +3,16 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withFetch } from '@angular/common/http';
+import { LoaderInterceptor } from './common/loader.interceptor';
 
 export const appConfig: ApplicationConfig = {
  providers: [
+  {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptor,
+      multi: true
+    },
     provideHttpClient(withFetch()), // ✅ enable fetch API
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
