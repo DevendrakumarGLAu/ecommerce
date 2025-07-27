@@ -6,9 +6,9 @@ export const routes: Routes = [
     path: '',
     component: MainLayerComponent,
     children: [
-      { path: '', redirectTo: 'products', pathMatch: 'full' },
+      { path: '', redirectTo: '', pathMatch: 'full' },
       {
-        path: 'products',
+        path: '',
         loadComponent: () =>
           import('./product/product.component').then((m) => m.ProductComponent),
       },
