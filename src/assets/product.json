@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "name": "Bangle Set Red",
+    "description": "Beautiful handcrafted red bangles.",
+    "price": 299,
+    "image": "assets/images/logo.jpg",
+     "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
+  "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
+  "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+  },
+  {
+    "id": 2,
+    "name": "Glass Bangle Blue",
+    "description": "Elegant glass bangles for festive wear.",
+    "price": 349,
+    "image": "assets/images/logo2.jpg",
+     "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
+  "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
+  "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+  },
+  {
+    "id": 3,
+    "name": "Traditional Gold Bangle",
+    "description": "Looks like gold, light as feather.",
+    "price": 499,
+    "image": "assets/images/logo.jpg",
+     "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
+  "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
+  "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+  },
+  {
+    "id": 4,
+    "name": "Glass Bangle Blue",
+    "description": "Elegant glass bangles for festive wear.",
+    "price": 349,
+    "image": "assets/images/logo2.jpg",
+     "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
+  "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
+  "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+  },
+  {
+    "id": 5,
+    "name": "Traditional Gold Bangle",
+    "description": "Looks like gold, light as feather.",
+    "price": 499,
+    "image": "assets/images/logo.jpg",
+     "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
+  "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
+  "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+  },
+  {
+    "id": 6,
+    "name": "Glass Bangle Blue",
+    "description": "Elegant glass bangles for festive wear.",
+    "price": 349,
+    "image": "assets/images/logo2.jpg",
+     "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
+  "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
+  "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+  },
+  {
+    "id": 7,
+    "name": "Traditional Gold Bangle",
+    "description": "Looks like gold, light as feather.",
+    "price": 499,
+    "image": "assets/images/logo.jpg",
+     "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
+  "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
+  "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+  }
+]

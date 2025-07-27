@@ -1,0 +1,24 @@
+<div class="container mt-4">
+  <h2 class="mb-4 text-center">Our Products</h2>
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let product of products">
+      <div class="card h-100 shadow">
+        <img [src]="product.image" class="card-img-top img-fluid object-fit-contain" alt="{{ product.name }}" />
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">{{ product.description }}</p>
+          <h6 class="text-primary">₹{{ product.price }}</h6>
+        </div>
+        <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between gap-2">
+            <a *ngIf="product.meeshoUrl" [href]="product.meeshoUrl" target="_blank" class="btn btn-outline-primary flex-fill">Meesho</a>
+            <a *ngIf="product.amazonUrl" [href]="product.amazonUrl" target="_blank" class="btn btn-outline-warning flex-fill">Amazon</a>
+            <a *ngIf="product.flipkartUrl" [href]="product.flipkartUrl" target="_blank" class="btn btn-outline-info flex-fill">Flipkart</a>
+        </div>
+
+        <!-- <div class="card-footer bg-transparent border-top-0">
+          <button class="btn btn-outline-primary w-100">Add to Cart</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
