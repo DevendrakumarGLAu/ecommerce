@@ -15,8 +15,7 @@ export class AppComponent {
   title = 'firozabadbangles';
 
 
-constructor(private title: Title, private meta: Meta) {
-  this.title.setTitle('Firozabad Bangles - Handmade Glass Bangles');
+constructor(private titleService: Title, private meta: Meta){
 
   this.meta.addTags([
     { name: 'description', content: 'Buy beautiful handmade bangles from Firozabad. Traditional, colorful, and elegant.' },
