@@ -27,12 +27,21 @@
           <p class="card-text">{{ product.description }}</p>
           <h6 class="text-primary">₹{{ product.price }}</h6>
         </div>
+
+        <div class="card-footer bg-transparent border-top-0">
+  <div class="d-flex flex-column flex-md-row gap-2">
+    <a *ngIf="product.meeshoUrl" [href]="product.meeshoUrl" target="_blank" class="btn btn-outline-primary flex-fill">Meesho</a>
+    <a *ngIf="product.amazonUrl" [href]="product.amazonUrl" target="_blank" class="btn btn-outline-warning flex-fill">Amazon</a>
+    <a *ngIf="product.flipkartUrl" [href]="product.flipkartUrl" target="_blank" class="btn btn-outline-info flex-fill">Flipkart</a>
+  </div>
+</div>
+<!--
         <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between gap-2">
             <a *ngIf="product.meeshoUrl" [href]="product.meeshoUrl" target="_blank" class="btn btn-outline-primary flex-fill">Meesho</a>
             <a *ngIf="product.amazonUrl" [href]="product.amazonUrl" target="_blank" class="btn btn-outline-warning flex-fill">Amazon</a>
             <a *ngIf="product.flipkartUrl" [href]="product.flipkartUrl" target="_blank" class="btn btn-outline-info flex-fill">Flipkart</a>
         </div>
-
+-->
         <!-- <div class="card-footer bg-transparent border-top-0">
           <button class="btn btn-outline-primary w-100">Add to Cart</button>
         </div> -->
