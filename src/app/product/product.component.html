@@ -1,3 +1,21 @@
+
+<!-- 🔻 Bootstrap Banner -->
+<br>
+<div class="container-fluid bg-warning py-3 border-bottom">
+  <div class="row align-items-center text-center text-md-start px-3">
+    <div class="col-md-2 mb-2 mb-md-0">
+      <img src="https://www.google.com/imgres?q=banner%20images%20for%20website&imgurl=https%3A%2F%2Fimg.freepik.com%2Ffree-vector%2Fgradient-business-linkedin-banner_23-2150091566.jpg%3Fsemt%3Dais_hybrid%26w%3D740%26q%3D80&imgrefurl=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fwebsite-design-banner&docid=wXePQKzpPUXemM&tbnid=Z8qDpwv1WYy3FM&vet=12ahUKEwijg9Tb3-eOAxV4TGwGHaGgBy4QM3oECHMQAA..i&w=740&h=212&hcb=2&ved=2ahUKEwijg9Tb3-eOAxV4TGwGHaGgBy4QM3oECHMQAA" alt="Sale Banner" class="img-fluid rounded">
+    </div>
+    <div class="col-md-10">
+      <h5 class="mb-1 fw-bold text-dark">🎉 Monsoon Sale is Live!</h5>
+      <p class="mb-0 text-dark small">
+        Get up to 40% off on handmade bangles. Limited time offer!
+      </p>
+    </div>
+  </div>
+</div>
+
+
 <div class="container mt-4">
   <h2 class="mb-4 text-center">Our Products</h2>
   <div class="row">
@@ -9,12 +27,21 @@
           <p class="card-text">{{ product.description }}</p>
           <h6 class="text-primary">₹{{ product.price }}</h6>
         </div>
+
+        <div class="card-footer bg-transparent border-top-0">
+  <div class="d-flex flex-column flex-md-row gap-2">
+    <a *ngIf="product.meeshoUrl" [href]="product.meeshoUrl" target="_blank" class="btn btn-outline-primary flex-fill">Meesho</a>
+    <a *ngIf="product.amazonUrl" [href]="product.amazonUrl" target="_blank" class="btn btn-outline-warning flex-fill">Amazon</a>
+    <a *ngIf="product.flipkartUrl" [href]="product.flipkartUrl" target="_blank" class="btn btn-outline-info flex-fill">Flipkart</a>
+  </div>
+</div>
+<!--
         <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between gap-2">
             <a *ngIf="product.meeshoUrl" [href]="product.meeshoUrl" target="_blank" class="btn btn-outline-primary flex-fill">Meesho</a>
             <a *ngIf="product.amazonUrl" [href]="product.amazonUrl" target="_blank" class="btn btn-outline-warning flex-fill">Amazon</a>
             <a *ngIf="product.flipkartUrl" [href]="product.flipkartUrl" target="_blank" class="btn btn-outline-info flex-fill">Flipkart</a>
         </div>
-
+-->
         <!-- <div class="card-footer bg-transparent border-top-0">
           <button class="btn btn-outline-primary w-100">Add to Cart</button>
         </div> -->
