@@ -1,5 +1,5 @@
 import productData from './data/products';
 
-export function getPrerenderProductRoutes() {
+export function getProductPrerenderParams() {
   return productData.map(product => `/product/${product.id}`);
 }
