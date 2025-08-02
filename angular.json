@@ -21,21 +21,20 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-               "src/assets",
-                "src/favicon.ico",
+              "src/assets",
+              "src/favicon.ico",
               {
                 "glob": "**/*",
                 "input": "public"
               }
             ],
-             "styles": [
-               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-                "node_modules/bootstrap-icons/font/bootstrap-icons.css",
-                "src/styles.css"
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
+              "src/styles.css"
             ],
             "scripts": [
-                "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ],
             "server": "src/main.server.ts",
             "outputMode": "server",
@@ -96,8 +95,20 @@
                 "input": "public"
               }
             ],
-            "styles": [  ]
+            "styles": []
           }
+        },
+        "prerender": {
+          "builder": "@angular-devkit/build-angular:prerender",
+          "options": {
+            "browserTarget": "firozabadbangles:build:production",
+            "serverTarget": "firozabadbangles:server:production",
+            "routes": []
+          },
+          "configurations": {
+            "production": {}
+          },
+          "defaultConfiguration": "production"
         }
       }
     }
