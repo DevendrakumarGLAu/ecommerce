@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { MainLayerComponent } from './main-layer/main-layer.component';
+import productData from '../assets/product.json'
 
 export const routes: Routes = [
   {
@@ -15,6 +16,9 @@ export const routes: Routes = [
       { path: 'product/:id', 
          loadComponent: () =>
           import('./product-details/product-details.component').then((m) => m.ProductDetailsComponent),
+         data: {
+      getPrerenderParams: () => productData.map(p => ({ id: p.id.toString() }))
+    }
        },
     ],
   },
