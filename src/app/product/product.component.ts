@@ -1,11 +1,12 @@
 import { CommonModule, NgFor } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-product',
   standalone:true,
-  imports: [CommonModule, HttpClientModule, NgFor],
+  imports: [CommonModule, HttpClientModule, NgFor,RouterModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })

@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MainLayerComponent } from './main-layer/main-layer.component';
+// import { MainLayerComponent } from './main-layer/main-layer.component';
 
   import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,MainLayerComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

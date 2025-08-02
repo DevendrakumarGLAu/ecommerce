@@ -1,0 +1,9 @@
+.custom-margin-top{
+    margin-top: 2rem;
+}
+
+@media (max-width: 576px) {
+  .custom-margin-top {
+    margin-top: 5rem;
+  }
+}

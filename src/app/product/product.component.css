@@ -2,3 +2,13 @@
   height: 200px;
   object-fit: cover;
 }
+
+.custom-margin-top{
+    margin-top: 5rem;
+}
+
+@media (max-width: 576px) {
+  .custom-margin-top {
+    margin-top: 10rem;
+  }
+}
