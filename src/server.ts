@@ -16,6 +16,20 @@ const browserDistFolder = resolve(serverDistFolder, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
+function getProductPrerenderParams() {
+  try {
+    // Read product data from a local JSON file
+    const productData = JSON.parse(
+      fs.readFileSync(path.resolve(__dirname, 'data/products.json'), 'utf-8')
+    );
+    // Generate URLs for prerendering
+    return productData.map((product: { id: number }) => `/product/${product.id}`);
+  } catch (error) {
+    console.error('Error reading product data for prerendering:', error);
+    return [];
+  }
+}
+
 /**
  * Example Express Rest API endpoints can be defined here.
  * Uncomment and define endpoints as necessary.
@@ -63,24 +77,13 @@ app.get('/product/:id', (req, res) => {
 
 app.get('/prerender', async (req, res) => {
   try {
-    // Read the products data from a local JSON file (you can replace this with a database call)
-    const productData = JSON.parse(
-      fs.readFileSync(path.resolve(__dirname, 'data/products.json'), 'utf-8')
-    );
-
-    // Generate the prerender URLs dynamically
-    const prerenderedUrls = productData.map((product: { id: number }) => {
-      return `/product/${product.id}`;
-    });
-
-    // Send the prerendered URLs as a response
-    res.json({ prerenderedUrls });
+    const prerenderUrls = getProductPrerenderParams(); // Get the URLs
+    res.json({ prerenderedUrls: prerenderUrls });
   } catch (error) {
-    console.error('Error reading product data for prerendering:', error);
+    console.error('Error generating prerender URLs:', error);
     res.status(500).json({ error: 'Failed to generate prerender URLs' });
   }
 });
-
 /**
  * Start the server if this module is the main entry point.
  * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
