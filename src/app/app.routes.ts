@@ -12,11 +12,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./product/product.component').then((m) => m.ProductComponent),
       },
-      { path: 'product/:id', 
-         loadComponent: () =>
-          import('./product-details/product-details.component').then((m) => m.ProductDetailsComponent),
-         data: { renderMode: 'client' } 
-       },
+      // { path: 'product/:id', 
+      //    loadComponent: () =>
+      //     import('./product-details/product-details.component').then((m) => m.ProductDetailsComponent),
+      //    data: { renderMode: 'client' } 
+      //  },
     ],
   },
 ];
