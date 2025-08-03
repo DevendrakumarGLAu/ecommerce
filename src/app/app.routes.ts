@@ -15,7 +15,7 @@ export const routes: Routes = [
       { path: 'product/:id', 
          loadComponent: () =>
           import('./product-details/product-details.component').then((m) => m.ProductDetailsComponent),
-         data: { renderMode: 'ssr' }
+         data: { renderMode: 'client' } 
        },
     ],
   },
