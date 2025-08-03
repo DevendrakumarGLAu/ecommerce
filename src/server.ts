@@ -37,6 +37,9 @@ app.use(
   }),
 );
 
+export const prerenderConfig = {
+  excludedRoutes: ['/product/:id'],
+};
 /**
  * Handle all other requests by rendering the Angular application.
  */
