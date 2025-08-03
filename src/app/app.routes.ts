@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { MainLayerComponent } from './main-layer/main-layer.component';
-import { getProductPrerenderParams } from './prerender-routes';
 
 export const routes: Routes = [
   {
@@ -16,6 +15,7 @@ export const routes: Routes = [
       { path: 'product/:id', 
          loadComponent: () =>
           import('./product-details/product-details.component').then((m) => m.ProductDetailsComponent),
+         data: { renderMode: 'ssr' }
        },
     ],
   },
