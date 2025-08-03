@@ -1,7 +1,7 @@
 import { CommonModule, NgFor } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -13,11 +13,24 @@ import { RouterModule } from '@angular/router';
 export class ProductComponent implements OnInit {
   products: any[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private router: Router) {}
 
   ngOnInit(): void {
     this.http.get<any[]>('assets/product.json').subscribe((data:any) => {
       this.products = data;
+    });
+  }
+
+  viewProductDetails(productId: number) {
+    // Fetch product details from JSON (or API)
+    this.http.get<any>('assets/product.json').subscribe((data: any[]) => {
+      const product = data.find(p => p.id === productId);
+      if (product) {
+        console.log('Product details:', product);
+        this.router.navigate(['/product', productId]);
+      } else {
+        console.error('Product not found');
+      }
     });
   }
 

@@ -1,6 +1,6 @@
 <!-- 🔻 Bootstrap Banner -->
 <div class="container-fluid bg-warning border-bottom custom-margin-top">
-<!-- <div class="container-fluid bg-warning border-bottom mt-6 mt-sm-8 custom-margin-top"> -->
+    <!-- <div class="container-fluid bg-warning border-bottom mt-6 mt-sm-8 custom-margin-top"> -->
     <div class="row align-items-center text-center text-md-start px-3">
         <div class="col-md-2 mb-2 mb-md-0">
             <img src="https://thumbs.dreamstime.com/b/percent-off-d-number-sale-banner-percent-off-d-number-sale-banner-vector-illustration-379771461.jpg"
@@ -28,11 +28,11 @@
                     <h6 class="text-primary">₹{{ product.price }}</h6>
                 </div>
                 <div class="card-footer bg-transparent border-top-0">
-                    <a [routerLink]="['/product', product.id]" class="btn btn-primary w-100">View Details</a>
+                    <button class="btn btn-primary w-100" (click)="viewProductDetails(product.id)">View Details</button>
                 </div>
 
                 <div class="card-footer bg-transparent border-top-0">
-                    <div class="d-flex flex-column flex-md-row gap-2">
+                    <div class="d-flex flex-column flex-md-row flex-md-wrap gap-2">
                         <a *ngIf="product.meeshoUrl" [href]="product.meeshoUrl" target="_blank"
                             class="btn btn-outline-primary flex-fill">Meesho</a>
                         <a *ngIf="product.amazonUrl" [href]="product.amazonUrl" target="_blank"
