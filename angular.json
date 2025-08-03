@@ -97,28 +97,8 @@
             ],
             "styles": []
           }
-        },
-        "prerender": {
-          "builder": "@angular-devkit/build-angular:prerender",
-          "options": {
-            "browserTarget": "firozabadbangles:build:production",
-            "serverTarget": "firozabadbangles:server:production",
-            "routes": [
-              "/",
-              "/product/1",
-              "/product/2",
-              "/product/3",
-              "/product/4",
-              "/product/5",
-              "/product/6",
-              "/product/7"
-            ]
-          },
-          "configurations": {
-            "production": {}
-          },
-          "defaultConfiguration": "production"
         }
+      
       }
     }
   },
