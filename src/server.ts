@@ -7,6 +7,8 @@ import {
 import express from 'express';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import fs from 'fs';
+import path from 'path';
 
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
@@ -47,6 +49,36 @@ app.use('/**', (req, res, next) => {
       response ? writeResponseToNodeResponse(response, res) : next(),
     )
     .catch(next);
+});
+
+app.get('/product/:id', (req, res) => {
+  const id = req.params.id;
+  res.render('index', { 
+    req, 
+    res,
+    url: `/product/${id}`,
+  });
+});
+
+
+app.get('/prerender', async (req, res) => {
+  try {
+    // Read the products data from a local JSON file (you can replace this with a database call)
+    const productData = JSON.parse(
+      fs.readFileSync(path.resolve(__dirname, 'data/products.json'), 'utf-8')
+    );
+
+    // Generate the prerender URLs dynamically
+    const prerenderedUrls = productData.map((product: { id: number }) => {
+      return `/product/${product.id}`;
+    });
+
+    // Send the prerendered URLs as a response
+    res.json({ prerenderedUrls });
+  } catch (error) {
+    console.error('Error reading product data for prerendering:', error);
+    res.status(500).json({ error: 'Failed to generate prerender URLs' });
+  }
 });
 
 /**
