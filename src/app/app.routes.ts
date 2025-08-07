@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { MainLayerComponent } from './main-layer/main-layer.component';
-import products from '../app/data/products.json'; 
+import products from '../app/data/products'; 
 
 export const routes: Routes = [
   {
