@@ -1,6 +1,7 @@
 import { NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Title, Meta } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
 @Component({
@@ -12,7 +13,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 })
 export class ProductDetailsComponent implements OnInit{
   product: any;
-  constructor(private route: ActivatedRoute, private http: HttpClient){}
+  constructor(private route: ActivatedRoute, private http: HttpClient,private title: Title, private meta: Meta){}
 
   ngOnInit(): void {
     //const productID = +this.route.snapshot.paramMap.get('id')!;
