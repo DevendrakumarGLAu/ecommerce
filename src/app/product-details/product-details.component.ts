@@ -15,12 +15,21 @@ export class ProductDetailsComponent implements OnInit{
   constructor(private route: ActivatedRoute, private http: HttpClient){}
 
   ngOnInit(): void {
-    const productID = +this.route.snapshot.paramMap.get('id')!;
+    //const productID = +this.route.snapshot.paramMap.get('id')!;
+    const slug = this.route.snapshot.paramMap.get('slug');
+    const productID  = this.extractIdFromSlug(slug);
 
     this.http.get<any[]>('assets/product.json').subscribe(data => {
       this.product = data.find(p => p.id === productID);
     });
+    this.title.setTitle(this.product.name + ' - Firozabad bangles'); 
+    this.meta.updateTag({ name: 'description', content: this.product.description });
   }
+
+extractIdFromSlug(slug: string | null): string | null {
+  return slug?.split('-').pop() || null;
+  }
+  
 
   openUrl(url?: string) {
   if (url) {
