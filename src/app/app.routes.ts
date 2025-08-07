@@ -15,7 +15,8 @@ export const routes: Routes = [
       { path: 'product/:slug', 
          loadComponent: () =>
          import('./product-details/product-details.component').then((m) => m.ProductDetailsComponent),
-        
+       
+        data: { renderMode: 'dynamic' } 
        },
     ],
   },
