@@ -1,42 +1,42 @@
 <div class="container py-5" *ngIf="product">
-    <div class="row custom-margin-top">
-        <!-- Product Image -->
-        <div class="col-md-6 mb-4">
-            <img [src]="product.image" class="img-fluid rounded" alt="{{ product.name }}">
-        </div>
+  <div class="row custom-margin-top">
+    <!-- Product Image -->
+    <div class="col-md-6 mb-4">
+      <img [src]="product.image" class="img-fluid rounded" alt="{{ product.name }}">
+    </div>
 
-        <!-- Product Information -->
-        <div class="col-md-6">
-            <h2 class="fw-bold mb-3">{{ product.name }}</h2>
-            <p class="text-muted mb-3">{{ product.description }}</p>
-            <h4 class="text-primary mb-4">₹{{ product.price }}</h4> <!-- Price -->
+    <!-- Product Information -->
+    <div class="col-md-6">
+      <h2 class="fw-bold mb-3">{{ product.name }}</h2>
+      <p class="text-muted mb-3">{{ product.description }}</p>
+      <h4 class="text-primary mb-4">₹{{ product.price }}</h4> <!-- Price -->
 
-            <!-- Quantity and Add to Cart buttons -->
-            <div class="mb-3">
-                <label for="quantity" class="form-label">Quantity</label>
-                <input type="number" id="quantity" class="form-control" value="1" min="1" max="10">
-            </div>
+      <!-- Quantity and Add to Cart buttons -->
+      <div class="mb-3">
+        <label for="quantity" class="form-label">Quantity</label>
+        <input type="number" id="quantity" class="form-control" value="1" min="1" max="10">
+      </div>
 
-            <!-- Add to Cart & Buy Now Buttons -->
-            <!-- <div class="d-flex gap-2">
+      <!-- Add to Cart & Buy Now Buttons -->
+      <!-- <div class="d-flex gap-2">
                 <button class="btn btn-outline-primary flex-fill" [href]="product.meeshoUrl" target="_blank">Add to
                     Cart</button>
                 <button class="btn btn-success flex-fill" [href]="product.amazonUrl" target="_blank">Buy Now</button>
             </div> -->
 
-            <!-- Links for Flipkart, Amazon, and Meesho -->
-            <div class="d-flex gap-2">
-  <button class="btn btn-primary flex-fill" (click)="openUrl(product.meeshoUrl)">
-    Meesho
-  </button>
-  <button class="btn btn-warning flex-fill" (click)="openUrl(product.amazonUrl)">
-    Amazon
-  </button>
-  <button class="btn btn-info flex-fill" (click)="openUrl(product.flipkartUrl)">
-    Flipkart
-  </button>
-</div>
+      <!-- Links for Flipkart, Amazon, and Meesho -->
+      <div class="d-flex gap-2">
+        <button class="btn btn-primary flex-fill" (click)="openUrl(product.meeshoUrl)">
+          Meesho
+        </button>
+        <button class="btn btn-warning flex-fill" (click)="openUrl(product.amazonUrl)">
+          Amazon
+        </button>
+        <button class="btn btn-info flex-fill" (click)="openUrl(product.flipkartUrl)">
+          Flipkart
+        </button>
+      </div>
 
-        </div>
     </div>
+  </div>
 </div>

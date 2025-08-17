@@ -24,13 +24,14 @@ export class ProductDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const slug = this.route.snapshot.paramMap.get('slug');
-    const productID = this.extractIdFromSlug(slug);
+    debugger
+    const productID = this.route.snapshot.paramMap.get('id');
+    // const productID = this.extractIdFromSlug(slug);
 
     if (productID) {
       this.http.get<any[]>('assets/product.json').subscribe(
         (data:any) => {
-          this.product = data.find((p:any) => p.id === productID);
+          this.product = data.find((p:any) => p.id === parseInt(productID));
           if (this.product) {
             // Update the page title and meta tags after product is found
             this.title.setTitle(this.product.name + ' - Firozabad Bangles');
