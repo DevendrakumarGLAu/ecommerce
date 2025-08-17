@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "ng": "ng",
+    "build:ssr": "ng build && ng run firozabadbangles:server",
     "start": "node dist/firozabadbangles/server/server.mjs",
     "build": "ng build --configuration production",
     "dev": "ng serve",
