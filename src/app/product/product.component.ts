@@ -5,33 +5,34 @@ import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-product',
-  standalone:true,
-  imports: [CommonModule, HttpClientModule, NgFor,RouterModule],
+  standalone: true,
+  imports: [CommonModule, HttpClientModule, NgFor, RouterModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })
 export class ProductComponent implements OnInit {
   products: any[] = [];
 
-  constructor(private http: HttpClient,private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit(): void {
-    this.http.get<any[]>('assets/product.json').subscribe((data:any) => {
-      this.products = data;
+    this.http.get<any[]>('assets/product.json').subscribe({
+      next: (data) => this.products = data,
+      error: (err) => {
+        console.error('Failed to load product.json', err);
+      }
     });
   }
 
-  viewProductDetails(productId: number) {
-    // Fetch product details from JSON (or API)
-    this.http.get<any>('assets/product.json').subscribe((data: any[]) => {
-      const product = data.find(p => p.id === productId);
-      if (product) {
-        console.log('Product details:', product);
-        this.router.navigate(['/product', productId]);
-      } else {
-        console.error('Product not found');
-      }
-    });
+  viewProductDetails(productId: number): void {
+    const product = this.products.find(p => p.id === productId);
+
+    if (product) {
+      console.log('Product details:', product);
+      this.router.navigate(['/product', productId]);
+    } else {
+      console.error('Product not found with ID:', productId);
+    }
   }
 
 }
