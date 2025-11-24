@@ -30,9 +30,12 @@ export class ProductDetailsComponent implements OnInit, AfterViewInit{
     if (this.product && this.product.images.length) {
       this.selectedImage = this.product.images[0];
     }
-    const encoded = this.route.snapshot.queryParamMap.get('id');
-    if (encoded) {
-      const decoded = atob(encoded);           // decode Base64
+    const encodedId = this.route.snapshot.paramMap.get('id');
+  
+    // const encoded = this.route.snapshot.queryParamMap.get('id');
+    if (encodedId) {
+      const decoded = encodedId ? atob(encodedId) : null;
+      // const decoded = atob(encoded);           // decode Base64
       const productID = Number(decoded);
       this.http.get<any[]>('assets/product.json').subscribe(
         (data) => {
