@@ -1,9 +1,8 @@
-import { isPlatformBrowser, NgFor, NgIf } from '@angular/common';
+import {  NgFor, NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import {  Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { Carousel } from 'bootstrap';
 
 @Component({
   selector: 'app-product-details',
@@ -12,7 +11,7 @@ import { Carousel } from 'bootstrap';
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.css']
 })
-export class ProductDetailsComponent implements OnInit, AfterViewInit{
+export class ProductDetailsComponent implements OnInit{
   product: any;
   isLoading = true;
   errorMessage = '';
@@ -62,14 +61,6 @@ export class ProductDetailsComponent implements OnInit, AfterViewInit{
       this.isLoading = false;
     }
   }
-  ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const carouselEl = document.querySelector('#productCarousel');
-      if (carouselEl) {
-        const bsCarousel = Carousel.getInstance(carouselEl) || new Carousel(carouselEl);
-      }
-    }
-  }
 
   openUrl(url?: string) {
     if (url) {
@@ -78,16 +69,7 @@ export class ProductDetailsComponent implements OnInit, AfterViewInit{
       alert('URL not available.');
     }
   }
-  selectImage(img: string) {
+selectImage(img: string) {
     this.selectedImage = img;
-
-    // Optional: update carousel to the selected image
-    const carousel = document.querySelector('#productCarousel');
-    const index = this.product.images.indexOf(img);
-
-    if (carousel) {
-      const bsCarousel = Carousel.getInstance(carousel) || new Carousel(carousel);
-      bsCarousel.to(index);
-    }
   }
 }
