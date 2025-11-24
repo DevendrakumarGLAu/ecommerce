@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "ng": "ng",
-    "build:ssr": "ng build && ng run firozabadbangles:ssr",
-    "start": "node dist/firozabadbangles/server/server.mjs",
-    "build": "ng build --configuration production",
-    "dev": "ng serve",
-    "ssr": "ng build && ng run firozabadbangles:server && node dist/firozabadbangles/server/server.mjs",
-    "prerender": "ng run firozabadbangles:prerender"
+  "build:ssr": "ng build --configuration production && ng run firozabadbangles:server:production",
+  "serve:ssr": "node dist/firozabadbangles/server/server.mjs",
+  "build": "ng build --configuration production",
+  "dev": "ng serve",
+  "ssr": "npm run build:ssr && npm run serve:ssr",
+  "prerender": "ng run firozabadbangles:prerender"
   },
   "dependencies": {
     "@angular/animations": "^19.2.0",
