@@ -1,6 +1,6 @@
-import {  NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import {  Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
@@ -11,7 +11,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.css']
 })
-export class ProductDetailsComponent implements OnInit{
+export class ProductDetailsComponent implements OnInit {
   product: any;
   isLoading = true;
   errorMessage = '';
@@ -30,14 +30,14 @@ export class ProductDetailsComponent implements OnInit{
       this.selectedImage = this.product.images[0];
     }
     const encodedId = this.route.snapshot.paramMap.get('id');
-  
+
     // const encoded = this.route.snapshot.queryParamMap.get('id');
     if (encodedId) {
       const decoded = encodedId ? atob(encodedId) : null;
       // const decoded = atob(encoded);           // decode Base64
       const productID = Number(decoded);
-      this.http.get<any[]>('assets/product.json').subscribe(
-        (data) => {
+      this.http.get<any[]>('assets/product.json').subscribe({
+        next: (data) => {
           this.product = data.find(p => p.id === productID);
           if (this.product) {
             // SEO updates
@@ -50,11 +50,15 @@ export class ProductDetailsComponent implements OnInit{
             this.errorMessage = 'Product not found!';
           }
         },
-        (error) => {
+        error: (error) => {
           console.error('Error fetching products', error);
           this.errorMessage = 'Failed to load product details.';
+        },
+        complete: () => {
+          this.isLoading = false;
         }
-      ).add(() => (this.isLoading = false));
+      });
+
 
     } else {
       this.errorMessage = 'Invalid product ID.';
@@ -69,7 +73,7 @@ export class ProductDetailsComponent implements OnInit{
       alert('URL not available.');
     }
   }
-selectImage(img: string) {
+  selectImage(img: string) {
     this.selectedImage = img;
   }
 }
