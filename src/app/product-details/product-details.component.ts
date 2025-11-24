@@ -1,39 +1,45 @@
-import { NgIf } from '@angular/common';
+import { isPlatformBrowser, NgFor, NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Carousel } from 'bootstrap';
 
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [NgIf, RouterModule],
+  imports: [NgIf, RouterModule, NgFor],
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.css']
 })
-export class ProductDetailsComponent implements OnInit {
+export class ProductDetailsComponent implements OnInit, AfterViewInit{
   product: any;
-  isLoading: boolean = true;
-  errorMessage: string = '';
+  isLoading = true;
+  errorMessage = '';
+  selectedImage: string = '';
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private route: ActivatedRoute,
     private http: HttpClient,
     private title: Title,
     private meta: Meta
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    const productID = this.route.snapshot.paramMap.get('id');
-    // const productID = this.extractIdFromSlug(slug);
-
-    if (productID) {
+    if (this.product && this.product.images.length) {
+      this.selectedImage = this.product.images[0];
+    }
+    const encoded = this.route.snapshot.queryParamMap.get('id');
+    if (encoded) {
+      const decoded = atob(encoded);           // decode Base64
+      const productID = Number(decoded);
       this.http.get<any[]>('assets/product.json').subscribe(
-        (data:any) => {
-          this.product = data.find((p:any) => p.id === parseInt(productID));
+        (data) => {
+          this.product = data.find(p => p.id === productID);
           if (this.product) {
-            // Update the page title and meta tags after product is found
-            this.title.setTitle(this.product.name + ' - Firozabad Bangles');
+            // SEO updates
+            this.title.setTitle(`${this.product.name} - Firozabad Bangles`);
             this.meta.updateTag({
               name: 'description',
               content: this.product.description
@@ -42,19 +48,24 @@ export class ProductDetailsComponent implements OnInit {
             this.errorMessage = 'Product not found!';
           }
         },
-        (error:Error) => {
+        (error) => {
           console.error('Error fetching products', error);
-          this.errorMessage = 'Failed to load product details. Please try again later.';
+          this.errorMessage = 'Failed to load product details.';
         }
-      ).add(() => this.isLoading = false); // Set loading state to false after request is done
+      ).add(() => (this.isLoading = false));
+
     } else {
-      this.errorMessage = 'Invalid product slug.';
+      this.errorMessage = 'Invalid product ID.';
       this.isLoading = false;
     }
   }
-
-  extractIdFromSlug(slug: string | null): string | null {
-    return slug?.split('-').pop() || null;
+  ngAfterViewInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      const carouselEl = document.querySelector('#productCarousel');
+      if (carouselEl) {
+        const bsCarousel = Carousel.getInstance(carouselEl) || new Carousel(carouselEl);
+      }
+    }
   }
 
   openUrl(url?: string) {
@@ -62,6 +73,18 @@ export class ProductDetailsComponent implements OnInit {
       window.open(url, '_blank');
     } else {
       alert('URL not available.');
+    }
+  }
+  selectImage(img: string) {
+    this.selectedImage = img;
+
+    // Optional: update carousel to the selected image
+    const carousel = document.querySelector('#productCarousel');
+    const index = this.product.images.indexOf(img);
+
+    if (carousel) {
+      const bsCarousel = Carousel.getInstance(carousel) || new Carousel(carousel);
+      bsCarousel.to(index);
     }
   }
 }

@@ -1,72 +1,79 @@
 [
   {
     "id": 1,
-    "name": "Bangle Set Red",
-    "description": "Beautiful handcrafted red bangles.",
-    "price": 299,
-    "image": "assets/images/logo.jpg",
-     "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
-  "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
-  "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+    "name": "Devanajali Plastic chooda set with cubic ziconia work for women arts and Girls (Pack of Both Hand Chooda Set)",
+    "description": "Elegant Devanjali plastic chooda set adorned with sparkling cubic zirconia, perfect for women and girls. Includes both hand chooda sets for a complete traditional look.",
+    "price": 199,
+    "images": ["https://images.meesho.com/images/products/617489590/4bdbm_512.avif?width=64",
+    "https://images.meesho.com/images/products/617489590/wcgs0_512.avif?width=64",
+    "https://images.meesho.com/images/products/617489590/pxics_512.avif?width=64"
+  ],
+    "meeshoUrl": "https://www.meesho.com/devanajali-plastic-chooda-set-with-cubic-ziconia-work-for-women-arts-and-girls-pack-of-both-hand-chooda-set/p/a7my0m?ms=2&source=Meri+Shop",
+    "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
+    "flipkartUrl": "https://www.flipkart.com/item/p/abc"
   },
   {
     "id": 2,
-    "name": "Glass Bangle Blue",
-    "description": "Elegant glass bangles for festive wear.",
+    "name": "Bangle Set with White Crystal Detailing",
+    "description": "Elegant bangle set featuring sparkling white crystal detailing. Perfect for adding a touch of glamour to any outfit, this stylish accessory complements both casual and formal looks.",
     "price": 349,
-    "image": "assets/images/logo2.jpg",
-     "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
-  "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
-  "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+    "images": [
+      "assets/images/2nd_product/10rs_1-removebg-preview.png",
+      "assets/images/2nd_product/10rs_2-removebg-preview.png",
+      "assets/images/2nd_product/10rs_3-removebg-preview.png"
+    ],
+    "meeshoUrl": "https://www.meesho.com/bangle-set-with-white-crystal-detailing/p/aduv5m?ms=2&source=Meri+Shop",
+    "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
+    "flipkartUrl": "https://www.flipkart.com/item/p/abc"
   },
   {
     "id": 3,
     "name": "Traditional Gold Bangle",
     "description": "Looks like gold, light as feather.",
     "price": 499,
-    "image": "assets/images/logo.jpg",
-     "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
-  "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
-  "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+    "images": ["assets/images/logo.jpg"],
+    "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
+    "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
+    "flipkartUrl": "https://www.flipkart.com/item/p/abc"
   },
   {
     "id": 4,
     "name": "Glass Bangle Blue",
     "description": "Elegant glass bangles for festive wear.",
     "price": 349,
-    "image": "assets/images/logo2.jpg",
-     "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
-  "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
-  "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+    "images": ["assets/images/logo2.jpg"],
+    "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
+    "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
+    "flipkartUrl": "https://www.flipkart.com/item/p/abc"
   },
   {
     "id": 5,
     "name": "Traditional Gold Bangle",
     "description": "Looks like gold, light as feather.",
     "price": 499,
-    "image": "assets/images/logo.jpg",
-     "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
-  "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
-  "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+    "images":[ "assets/images/logo.jpg"],
+    "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
+    "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
+    "flipkartUrl": "https://www.flipkart.com/item/p/abc"
   },
   {
     "id": 6,
     "name": "Glass Bangle Blue",
     "description": "Elegant glass bangles for festive wear.",
     "price": 349,
-    "image": "assets/images/logo2.jpg",
-     "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
-  "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
-  "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+    "images": ["assets/images/logo2.jpg"],
+    "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
+    "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
+    "flipkartUrl": "https://www.flipkart.com/item/p/abc"
   },
   {
     "id": 7,
     "name": "Traditional Gold Bangle",
     "description": "Looks like gold, light as feather.",
     "price": 499,
-    "image": "assets/images/logo.jpg",
-     "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
-  "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
-  "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+    "images":[ "assets/images/logo.jpg"],
+    "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
+    "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
+    "flipkartUrl": "https://www.flipkart.com/item/p/abc"
   }
 ]

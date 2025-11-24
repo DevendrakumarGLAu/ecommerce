@@ -1,9 +1,28 @@
-.custom-margin-top{
-    margin-top: 2rem;
+/* Carousel images: fixed height and width, cover the area */
+.product-image {
+  width: 100%;
+  height: 400px; /* Adjust height as needed */
+  object-fit: contain;
 }
 
-@media (max-width: 576px) {
-  .custom-margin-top {
-    margin-top: 5rem;
+/* Thumbnails: same size, smaller than main carousel */
+.thumbnail-image {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.thumbnail-image.selected {
+  border-color: #007bff; /* highlight */
+}
+
+/* Responsive adjustments for thumbnails on mobile */
+@media (max-width: 767px) {
+  .thumbnail-image {
+    width: 64px;
+    height: 64px;
+    flex: 0 0 auto;
   }
 }

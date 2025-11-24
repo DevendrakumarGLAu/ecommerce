@@ -28,8 +28,13 @@ export class ProductComponent implements OnInit {
     const product = this.products.find(p => p.id === productId);
 
     if (product) {
-      console.log('Product details:', product);
-      this.router.navigate(['/product', productId]);
+      // console.log('Product details:', product);
+      const encodedId = btoa(productId.toString());
+      // this.router.navigate(['/product', productId]);
+      this.router.navigate(
+        ['/product'],
+        { queryParams: { id: encodedId } }
+      );
     } else {
       console.error('Product not found with ID:', productId);
     }
