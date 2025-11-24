@@ -23,6 +23,9 @@ export class ProductComponent implements OnInit {
       }
     });
   }
+  encodeId(id: number): string {
+    return btoa(id.toString());
+  }
 
   viewProductDetails(productId: number): void {
    const product = this.products.find(p => p.id === productId);
