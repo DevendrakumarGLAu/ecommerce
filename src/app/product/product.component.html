@@ -19,9 +19,10 @@
 <div class="container py-2">
     <h2 class="mb-4 text-center">Our Products</h2>
     <div class="row">
-        <div class="col-md-4 mb-4" *ngFor="let product of products">
+        <div class="col-md-4 mb-4" *ngFor="let product of products"  loading="lazy">
             <div class="card h-100 shadow">
-                <img [src]="product.images[0]" class="card-img-top img-fluid object-fit-contain"
+                <img [src]="product.images[0]"  loading="lazy"
+  decoding="async" class="card-img-top img-fluid object-fit-contain"
                     alt="{{ product.name }}" />
                 <div class="card-body">
                     <h5 class="card-title">{{ product.name }}</h5>
