@@ -42,7 +42,6 @@
           },
           "configurations": {
             "production": {
-              "buildOptimizer": true,
               "optimization": {
                 "scripts": true,
                 "styles": {
@@ -51,10 +50,8 @@
                 }
               },
               "aot": true,
-              "vendorChunk": false,
               "namedChunks": false,
               "sourceMap": false,
-              "commonChunk": false,
               "extractLicenses": true,
               "budgets": [
                 {
@@ -76,7 +73,6 @@
               "sourceMap": true
             }
           },
-
           "defaultConfiguration": "production"
         },
         "serve": {
