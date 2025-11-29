@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
@@ -7,7 +7,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [NgIf, RouterModule, NgFor],
+  imports: [NgIf, RouterModule, NgFor,CommonModule],
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.css']
 })

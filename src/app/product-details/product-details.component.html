@@ -1,43 +1,61 @@
-<br>
 <div class="container py-5" *ngIf="product">
-  <div class="row">
+  <div class="row g-4 align-items-start">
 
-    <!-- Thumbnails (Left on md+, Top on small screens) -->
-    <div class="col-12 col-md-4 d-flex flex-row flex-md-column gap-2 mb-3 mb-md-0">
-      <img 
-        *ngFor="let img of product.images" 
-        [src]="img" 
-        class="img-fluid rounded thumbnail-image" 
-        [class.selected]="img === selectedImage"
-        alt="{{ product.name }}" 
-        (click)="selectImage(img)">
-    </div>
-
-    <!-- Main Image -->
-    <div class="col-12 col-md-8">
-      <img 
-        [src]="selectedImage || product.images[0]" 
-        class="d-block product-image rounded" 
-        alt="{{ product.name }}">
-    </div>
-
-    <!-- Product Information -->
-    <div class="col-12 mt-4">
-      <h2 class="fw-bold mb-3">{{ product.name }}</h2>
-      <p class="text-muted mb-3">{{ product.description }}</p>
-      <h4 class="text-primary mb-4">₹{{ product.price }}</h4>
-
-      <!-- Quantity input -->
-      <div class="mb-3">
-        <label for="quantity" class="form-label">Quantity</label>
-        <input type="number" id="quantity" class="form-control" value="1" min="1" max="10">
+    <!-- Left Column: Images -->
+    <div class="col-12 col-md-6 d-flex flex-column align-items-center">
+      <!-- Main Image -->
+      <div class="mb-3 w-100">
+        <img [src]="selectedImage || product.images[0]" 
+             class="img-fluid rounded shadow-sm" 
+             alt="{{ product.name }}">
       </div>
 
-      <!-- External Links -->
+      <!-- Thumbnails -->
+      <div class="d-flex gap-2 flex-wrap justify-content-center">
+        <img *ngFor="let img of product.images" [src]="img"
+             class="img-thumbnail thumbnail-image"
+             [class.selected]="img === selectedImage"
+             alt="{{ product.name }}"
+             (click)="selectImage(img)"
+             style="width: 60px; height: 60px; cursor: pointer;">
+      </div>
+    </div>
+
+    <!-- Right Column: Product Info -->
+    <div class="col-12 col-md-6">
+      <h2 class="fw-bold mb-2">{{ product.name }}</h2>
+      
+      <!-- Price -->
+      <h4 class="text-primary mb-3">₹{{ product.price }}</h4>
+
+      <!-- Rating -->
+      <div class="mb-3 d-flex align-items-center">
+        <ng-container *ngFor="let star of [1,2,3,4,5]">
+          <i class="bi"
+             [class.bi-star-fill]="star <= product.rating"
+             [class.text-warning]="star <= product.rating"
+             [class.bi-star]="star > product.rating"
+             [class.text-secondary]="star > product.rating"
+             style="font-size: 1.3rem; margin-right: 2px;">
+          </i>
+        </ng-container>
+        <span class="ms-2 text-muted">({{ product.rating }} / 5)</span>
+      </div>
+
+      <!-- Description -->
+      <p class="text-muted mb-4">{{ product.description }}</p>
+
+      <!-- Quantity Input -->
+      <div class="mb-4 d-flex align-items-center gap-3">
+        <label for="quantity" class="form-label mb-0">Quantity:</label>
+        <input type="number" id="quantity" class="form-control" value="1" min="1" max="10" style="width: 80px;">
+      </div>
+
+      <!-- Action Buttons -->
       <div class="d-flex gap-2 flex-wrap">
-        <button class="btn btn-primary flex-fill" (click)="openUrl(product.meeshoUrl)">Meesho</button>
-        <button class="btn btn-warning flex-fill" (click)="openUrl(product.amazonUrl)">Amazon</button>
-        <button class="btn btn-info flex-fill" (click)="openUrl(product.flipkartUrl)">Flipkart</button>
+        <button *ngIf="product.urls?.meesho" class="btn btn-primary flex-fill" (click)="openUrl(product.urls.meesho)">Meesho</button>
+        <button *ngIf="product.urls?.amazon" class="btn btn-warning flex-fill" (click)="openUrl(product.urls.amazon)">Amazon</button>
+        <button *ngIf="product.urls?.flipkart" class="btn btn-info flex-fill" (click)="openUrl(product.urls.flipkart)">Flipkart</button>
       </div>
     </div>
 

@@ -4,88 +4,117 @@
     "name": "Devanajali Plastic chooda set with cubic ziconia work for women arts and Girls (Pack of Both Hand Chooda Set)",
     "description": "Elegant Devanjali plastic chooda set adorned with sparkling cubic zirconia, perfect for women and girls. Includes both hand chooda sets for a complete traditional look.",
     "price": 199,
+    "rating": 4.6,
     "images": [
       "assets/images/1st_product/4bdbm_512_1.avif",
       "assets/images/1st_product/wcgs0_512_2.avif",
       "assets/images/1st_product/pxics_512_3.avif",
       "assets/images/1st_product/0f1qb_512_4.avif"
     ],
-    "meeshoUrl": "https://www.meesho.com/devanajali-plastic-chooda-set-with-cubic-ziconia-work-for-women-arts-and-girls-pack-of-both-hand-chooda-set/p/a7my0m?ms=2&source=Meri+Shop",
-    "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
-    "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+    "urls": {
+      "meesho": "https://www.meesho.com/devanajali-plastic-chooda-set-with-cubic-ziconia-work-for-women-arts-and-girls-pack-of-both-hand-chooda-set/p/a7my0m?ms=2&source=Meri+Shop",
+      "amazon": "",
+      "flipkart": ""
+    }
   },
   {
     "id": 2,
     "name": "Bangle Set with White Crystal Detailing",
     "description": "Elegant bangle set featuring sparkling white crystal detailing. Perfect for adding a touch of glamour to any outfit, this stylish accessory complements both casual and formal looks.",
-    "price": 349,
+    "price": 199,
+    "rating": 4.4,
     "images": [
       "assets/images/2nd_product/10rs_1-removebg-preview.png",
       "assets/images/2nd_product/10rs_2-removebg-preview.png",
       "assets/images/2nd_product/10rs_3-removebg-preview.png"
     ],
-    "meeshoUrl": "https://www.meesho.com/bangle-set-with-white-crystal-detailing/p/aduv5m?ms=2&source=Meri+Shop",
-    "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
-    "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+    "urls": {
+      "meesho": "https://www.meesho.com/bangle-set-with-white-crystal-detailing/p/aduv5m?ms=2&source=Meri+Shop",
+      "amazon": "",
+      "flipkart": ""
+    }
   },
   {
     "id": 3,
-    "name": "Traditional Gold Bangle",
-    "description": "Looks like gold, light as feather.",
-    "price": 499,
+    "name": "Traditional multicolor Glass Bangles Set for Women & Girls | Designer Stone Studded Churi | Kada | Festive Wear Bangles | Handmade Indian Bangles (4) pcs",
+    "description": "Traditional Red Glass Bangles Set for Women & Girls – Elevate your festive look with this designer stone-studded churi set, beautifully handcrafted by skilled Indian artisans. This handmade Indian bangles (4 pcs) set features vibrant red glass bangles paired with elegant kada-style designs, perfect for weddings, festivals, and traditional wear. A must-have accessory to complete your ethnic outfits with grace and sparkle.",
+    "price": 168,
+    "rating": 4.7,
     "images": [
-      "assets/images/logo.jpg"
+      "assets/images/3rd_product/img_1-removebg-preview_2.png",
+      "assets/images/3rd_product/img_1-removebg-preview.png",
+      "assets/images/3rd_product/img_2.jpeg",
+      "assets/images/3rd_product/img_3.jpeg"
     ],
-    "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
-    "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
-    "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+    "urls": {
+      "meesho": "https://www.meesho.com/traditional-multicolor-glass-bangles-set-for-women-girls-designer-stone-studded-churi-kada-festive-wear-bangles-handmade-indian-bangles-4-pcs/p/an0z60?ms=2&source=Meri+Shop",
+      "amazon": "",
+      "flipkart": ""
+    }
   },
   {
     "id": 4,
-    "name": "Glass Bangle Blue",
-    "description": "Elegant glass bangles for festive wear.",
-    "price": 349,
+    "name": "Elite Chic Bracelet & Bangles",
+    "description": "Introducing the Elite Chic Bracelet & Bangles, a stylish and beautifully designed jewellery piece perfect for modern women and girls. Made with high-quality materials and a premium glossy finish, this bracelet/bangle set adds a touch of class to every outfit. Whether you’re heading to a party, wedding, festival, or casual outing, this accessory enhances your style effortlessly.",
+    "price": 233,
+    "rating": 4.3,
     "images": [
-      "assets/images/logo2.jpg"
+      "assets/images/4th_product/10rs_1-removebg-preview.png",
+      "assets/images/4th_product/10rs_2-removebg-preview.png",
+      "assets/images/4th_product/10rs_3-removebg-preview.png",
+      "assets/images/4th_product/10rs_3.jpeg"
     ],
-    "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
-    "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
-    "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+    "urls": {
+      "meesho": "https://www.meesho.com/elite-chic-bracelet-bangles/p/afsqx0?ms=2&source=Meri+Shop",
+      "amazon": "",
+      "flipkart": ""
+    }
   },
   {
     "id": 5,
-    "name": "Traditional Gold Bangle",
-    "description": "Looks like gold, light as feather.",
-    "price": 499,
+    "name": "Red Resin Bangle Set with White Crystal Detailing",
+    "description": "Add vibrant charm to your ethnic look with this beautifully crafted red resin bangle set, accentuated by sparkling white crystal detailing. Designed to complement both traditional and festive outfits, this handmade Kada pack (2 pieces) blends elegance with everyday wearability. The bold red resin base gives a rich, eye‑catching shine, while the crystal embellishments offer subtle sparkle and sophistication. Lightweight yet sturdy, these bangles sit comfortably on your wrist and pair effortlessly with ethnic dresses, sarees, or casual fusion wear. Perfect for festivals, weddings, or daily wear — a must-have accessory to elevate your style.",
+    "price": 193,
+    "rating": 4.8,
     "images": [
-      "assets/images/logo.jpg"
+      "assets/images/5th_product/njf7r_512.jpg",
+      "assets/images/5th_product/lhgij.jpg",
+      "assets/images/5th_product/njf7r_512.webp"
     ],
-    "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
-    "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
-    "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+    "urls": {
+      "meesho": "https://www.meesho.com/red-resin-bangle-set-with-white-crystal-detailing/p/ae7yic?ms=2&source=Meri+Shop",
+      "amazon": "",
+      "flipkart": ""
+    }
   },
   {
     "id": 6,
     "name": "Glass Bangle Blue",
     "description": "Elegant glass bangles for festive wear.",
     "price": 349,
+    "rating": 4.2,
     "images": [
       "assets/images/logo2.jpg"
     ],
-    "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
-    "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
-    "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+    "urls": {
+      "meesho": "https://www.meesho.com/fancy-bangles/p/123",
+      "amazon": "https://www.amazon.in/dp/B0XYZ",
+      "flipkart": "https://www.flipkart.com/item/p/abc"
+    }
   },
   {
     "id": 7,
     "name": "Traditional Gold Bangle",
     "description": "Looks like gold, light as feather.",
     "price": 499,
+    "rating": 4.9,
     "images": [
       "assets/images/logo.jpg"
     ],
-    "meeshoUrl": "https://www.meesho.com/fancy-bangles/p/123",
-    "amazonUrl": "https://www.amazon.in/dp/B0XYZ",
-    "flipkartUrl": "https://www.flipkart.com/item/p/abc"
+    "urls": {
+      "meesho": "https://www.meesho.com/fancy-bangles/p/123",
+      "amazon": "https://www.amazon.in/dp/B0XYZ",
+      "flipkart": "https://www.flipkart.com/item/p/abc"
+    }
   }
 ]

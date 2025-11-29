@@ -12,3 +12,28 @@
     margin-top: 10rem;
   }
 }
+
+/* Single line ellipsis for product name */
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Multi-line ellipsis for product description */
+.text-ellipsis {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Number of lines to show */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.custom-price-class{
+  color: rgb(53, 53, 67);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+    font-family: "Mier bold";
+}
