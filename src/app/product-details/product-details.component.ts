@@ -1,21 +1,21 @@
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { Title, Meta } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [NgIf, RouterModule, NgFor,CommonModule],
+  imports: [NgIf, RouterModule, NgFor, CommonModule],
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.css']
 })
 export class ProductDetailsComponent implements OnInit {
   product: any;
+  selectedImage: string = '';
   isLoading = true;
   errorMessage = '';
-  selectedImage: string = '';
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -23,47 +23,73 @@ export class ProductDetailsComponent implements OnInit {
     private http: HttpClient,
     private title: Title,
     private meta: Meta
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    if (this.product && this.product.images.length) {
-      this.selectedImage = this.product.images[0];
-    }
     const encodedId = this.route.snapshot.paramMap.get('id');
-
-    // const encoded = this.route.snapshot.queryParamMap.get('id');
-    if (encodedId) {
-      const decoded = encodedId ? atob(encodedId) : null;
-      // const decoded = atob(encoded);           // decode Base64
-      const productID = Number(decoded);
-      this.http.get<any[]>('assets/product.json').subscribe({
-        next: (data) => {
-          this.product = data.find(p => p.id === productID);
-          if (this.product) {
-            // SEO updates
-            this.title.setTitle(`${this.product.name} - Firozabad Bangles`);
-            this.meta.updateTag({
-              name: 'description',
-              content: this.product.description
-            });
-          } else {
-            this.errorMessage = 'Product not found!';
-          }
-        },
-        error: (error) => {
-          console.error('Error fetching products', error);
-          this.errorMessage = 'Failed to load product details.';
-        },
-        complete: () => {
-          this.isLoading = false;
-        }
-      });
-
-
-    } else {
+    if (!encodedId) {
       this.errorMessage = 'Invalid product ID.';
       this.isLoading = false;
+      return;
     }
+
+    const decoded = atob(encodedId);
+    const productID = Number(decoded);
+
+    this.http.get<any[]>('assets/product.json').subscribe({
+      next: (data) => {
+        this.product = data.find(p => p.id === productID);
+
+        if (!this.product) {
+          this.errorMessage = 'Product not found!';
+          this.isLoading = false;
+          return;
+        }
+
+        // Set default selected image
+        this.selectedImage = this.product.images[0];
+
+        // Dynamic meta tags
+        this.title.setTitle(`${this.product.name} - Firozabad Bangles`);
+        this.meta.updateTag({ name: 'description', content: this.product.description });
+
+        // Inject JSON-LD structured data
+        const jsonLd = {
+          "@context": "https://schema.org/",
+          "@type": "Product",
+          "name": this.product.name,
+          "image": this.product.images,
+          "description": this.product.description,
+          "brand": "Firozabad Bangles",
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "INR",
+            "price": this.product.price,
+            "availability": "https://schema.org/InStock",
+            "url": window.location.href
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": this.product.rating || 4,
+            "reviewCount": 10
+          }
+        };
+
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.text = JSON.stringify(jsonLd);
+        document.head.appendChild(script);
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMessage = 'Failed to load product details.';
+      },
+      complete: () => this.isLoading = false
+    });
+  }
+
+  selectImage(img: string) {
+    this.selectedImage = img;
   }
 
   openUrl(url?: string) {
@@ -72,8 +98,5 @@ export class ProductDetailsComponent implements OnInit {
     } else {
       alert('URL not available.');
     }
-  }
-  selectImage(img: string) {
-    this.selectedImage = img;
   }
 }

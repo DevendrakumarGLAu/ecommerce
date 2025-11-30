@@ -1,3 +1,6 @@
+<div class="container py-5" *ngIf="isLoading">
+  <p class="text-center">Loading product...</p>
+</div>
 <div class="container py-5" *ngIf="product">
   <div class="row g-4 align-items-start">
 
@@ -6,7 +9,7 @@
       <!-- Main Image -->
       <div class="mb-3 w-100">
         <img [src]="selectedImage || product.images[0]" 
-             class="img-fluid rounded shadow-sm" 
+            class="img-fluid rounded product-image shadow-sm" 
              alt="{{ product.name }}">
       </div>
 
