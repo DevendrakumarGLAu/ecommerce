@@ -91,15 +91,18 @@
     "id": 6,
     "name": "Glass Bangle Blue",
     "description": "Elegant glass bangles for festive wear.",
-    "price": 349,
+    "price": 200,
     "rating": 4.2,
     "images": [
-      "assets/images/logo2.jpg"
+      "assets/images/6th_product/lal_chudi_1-removebg-preview.png",
+      "assets/images/6th_product/lal_chudi_1-removebg-preview (1).png",
+      "assets/images/6th_product/lal_chudi_1.jpeg",
+      "assets/images/6th_product/lal_chudi_2.jpeg"
     ],
     "urls": {
-      "meesho": "https://www.meesho.com/fancy-bangles/p/123",
-      "amazon": "https://www.amazon.in/dp/B0XYZ",
-      "flipkart": "https://www.flipkart.com/item/p/abc"
+      "meesho": "https://www.meesho.com/red-resin-bangle-set-with-white-crystal-detailing/p/an6wpc?ms=2&source=Meri+Shop",
+      "amazon": "",
+      "flipkart": ""
     }
   },
   {
