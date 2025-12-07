@@ -1,5 +1,5 @@
 <!-- 🔻 Bootstrap Banner -->
-<div class="container-fluid bg-warning border-bottom custom-margin-top">
+<div class="container-fluid bg-warning border-bottom py-2">
     <!-- <div class="container-fluid bg-warning border-bottom mt-6 mt-sm-8 custom-margin-top"> -->
     <div class="row align-items-center text-center text-md-start px-3">
         <div class="col-md-2 mb-2 mb-md-0">
@@ -58,8 +58,13 @@
                 </div>
 
                 <!-- View Details Button -->
-                <div class="card-footer bg-transparent border-top-0">
+                <!-- <div class="card-footer bg-transparent border-top-0">
                     <a class="btn btn-primary w-100" [href]="'/product/' + encodeId(product.id.toString())">
+                        View Product Details
+                    </a>
+                </div> -->
+                <div class="card-footer bg-transparent border-top-0">
+                    <a class="btn btn-primary w-100" [routerLink]="['/product', getProductSlug(product)]">
                         View Product Details
                     </a>
                 </div>

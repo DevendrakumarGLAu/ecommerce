@@ -3,11 +3,12 @@ import { ActivatedRoute, RouterOutlet } from '@angular/router';
 // import { MainLayerComponent } from './main-layer/main-layer.component';
 import { DOCUMENT } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
+import { SharedModule } from './shareModules';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet,SharedModule ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -36,32 +37,6 @@ export class AppComponent  implements OnInit{
   }
 
   ngOnInit(): void {
-    this.product = this.route.snapshot.data['product']; // or API call
-
-    // Set page title & meta dynamically
-    this.titleService.setTitle(`${this.product.name} – Firozabad Bangles`);
-    this.meta.updateTag({ name: 'description', content: this.product.description });
-
-    // JSON-LD structured data
-    const productJsonLd = {
-      "@context": "https://schema.org/",
-      "@type": "Product",
-      "name": this.product.name,
-      "image": this.product.images[0],
-      "description": this.product.description,
-      "brand": "Firozabad Bangles",
-      "offers": {
-        "@type": "Offer",
-        "priceCurrency": "INR",
-        "price": this.product.price,
-        "availability": "https://schema.org/InStock"
-      }
-    };
-
-    const script = this.doc.createElement('script');
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify(productJsonLd);
-    this.doc.head.appendChild(script);
   }
 
 }

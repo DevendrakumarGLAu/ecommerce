@@ -89,8 +89,8 @@
   },
   {
     "id": 6,
-    "name": "Glass Bangle Blue",
-    "description": "Elegant glass bangles for festive wear.",
+    "name": "Red Resin Bangle Set with White Crystal Detailing",
+    "description": "Add vibrant charm to your ethnic look with this beautifully crafted red resin bangle set, accentuated by sparkling white crystal detailing. Designed to complement both traditional and festive outfits, this handmade Kada pack (2 pieces) blends elegance with everyday wearability. The bold red resin base gives a rich, eye‑catching shine, while the crystal embellishments offer subtle sparkle and sophistication. Lightweight yet sturdy, these bangles sit comfortably on your wrist and pair effortlessly with ethnic dresses, sarees, or casual fusion wear. Perfect for festivals, weddings, or daily wear — a must-have accessory to elevate your style.",
     "price": 200,
     "rating": 4.2,
     "images": [
@@ -107,17 +107,22 @@
   },
   {
     "id": 7,
-    "name": "Traditional Gold Bangle",
-    "description": "Looks like gold, light as feather.",
-    "price": 499,
+    "name": "Beautiful Handmade Multi-Color Glass Kangan for Women & Girls (Pack of 4)",
+    "description": "Upgrade your ethnic style with this stunning set of handmade glass bangles. Designed in attractive multicolor shades, these kangans add a graceful and traditional touch to any outfit. Made by skilled artisans, each bangle is smooth, lightweight, and comfortable for all-day wear. Perfect for women and girls who love colorful and elegant accessories. Ideal for festivals, weddings, parties, pujas, family functions, and daily wear, this pack of 4 bangles pairs beautifully with sarees, suits, lehengas, and kurti sets. These multicolor glass kangans are the perfect addition to your jewelry collection and also make a thoughtful gift for your loved ones.Add beauty, tradition, and charm to your look with these handcrafted multi-color glass bangles!",
+    "price": 199,
     "rating": 4.9,
     "images": [
-      "assets/images/logo.jpg"
+      "assets/images/7th_product/44_rs_2-removebg-preview-removebg-preview.png",
+      "assets/images/7th_product/44_rs_4.jpeg",
+      "assets/images/7th_product/44_rs_3.jpeg",
+      "assets/images/7th_product/44_rs_2-removebg-preview.png",
+      "assets/images/7th_product/44_rs_1-removebg-preview (2).png",
+      "assets/images/7th_product/44_rs_1.jpeg"
     ],
     "urls": {
-      "meesho": "https://www.meesho.com/fancy-bangles/p/123",
-      "amazon": "https://www.amazon.in/dp/B0XYZ",
-      "flipkart": "https://www.flipkart.com/item/p/abc"
+      "meesho": "https://www.meesho.com/devanajali-beautiful-handmade-glass-kada-multi-color-for-women-and-girls-pack-of-4-bangles/p/arawh4?ms=2&source=Meri+Shop",
+      "amazon": "",
+      "flipkart": ""
     }
   }
 ]

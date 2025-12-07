@@ -2,6 +2,7 @@ import { CommonModule, NgFor } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { SnackbarService } from '../services/snackbar.service';
 
 @Component({
   selector: 'app-product',
@@ -13,7 +14,9 @@ import { Router, RouterModule } from '@angular/router';
 export class ProductComponent implements OnInit {
   products: any[] = [];
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router,
+    private snackbar :SnackbarService
+  ) { }
 
   ngOnInit(): void {
     this.http.get<any[]>(`assets/product.json?v=${new Date().getTime()}`).subscribe({
@@ -27,14 +30,26 @@ export class ProductComponent implements OnInit {
     return btoa(id.toString());
   }
 
-  viewProductDetails(productId: number): void {
-   const product = this.products.find(p => p.id === productId);
+  getProductSlug(product: any): string {
+    const nameSlug = product.name
+      .toLowerCase()
+      .replace(/\s+/g, '-')       // replace spaces with -
+      .replace(/[^\w-]+/g, '');   // remove special chars
+    return `${product.id}-${nameSlug}`;
+  }
 
-    if (product) {
-      const encodedId = btoa(productId.toString());
-      this.router.navigate(['/product'], { queryParams: { id: encodedId } });
+  viewProductDetails(product: number): void {
+  //  const product = this.products.find(p => p.id === productId);
+
+  //   if (product) {
+  //     const encodedId = btoa(productId.toString());
+  //     this.router.navigate(['/product'], { queryParams: { id: encodedId } });
+  const slug = this.getProductSlug(product);
+  if(slug){
+    this.router.navigate(['/product', slug]);
+
     } else {
-      console.error('Product not found with ID:', productId);
+      this.snackbar.error('Product not found with name:', product);
     }
   }
 

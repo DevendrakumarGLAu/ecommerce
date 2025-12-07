@@ -1,6 +1,6 @@
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { CommonModule, isPlatformBrowser, NgFor, NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID, ElementRef, Renderer2 } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 
@@ -22,19 +22,23 @@ export class ProductDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private http: HttpClient,
     private title: Title,
-    private meta: Meta
-  ) {}
+    private meta: Meta,
+    private renderer: Renderer2,
+    private el: ElementRef
+  ) { }
 
   ngOnInit(): void {
-    const encodedId = this.route.snapshot.paramMap.get('id');
-    if (!encodedId) {
-      this.errorMessage = 'Invalid product ID.';
-      this.isLoading = false;
-      return;
-    }
+    const slug = this.route.snapshot.paramMap.get('slug') || '';
+    const productID = Number(slug.split('-')[0]);
+    // const encodedId = this.route.snapshot.paramMap.get('id');
+    // if (!encodedId) {
+    //   this.errorMessage = 'Invalid product ID.';
+    //   this.isLoading = false;
+    //   return;
+    // }
 
-    const decoded = atob(encodedId);
-    const productID = Number(decoded);
+    // const decoded = atob(encodedId);
+    // const productID = Number(decoded);
 
     this.http.get<any[]>('assets/product.json').subscribe({
       next: (data) => {
@@ -46,14 +50,13 @@ export class ProductDetailsComponent implements OnInit {
           return;
         }
 
-        // Set default selected image
         this.selectedImage = this.product.images[0];
 
         // Dynamic meta tags
         this.title.setTitle(`${this.product.name} - Firozabad Bangles`);
         this.meta.updateTag({ name: 'description', content: this.product.description });
 
-        // Inject JSON-LD structured data
+        // JSON-LD Structured Data
         const jsonLd = {
           "@context": "https://schema.org/",
           "@type": "Product",
@@ -66,7 +69,7 @@ export class ProductDetailsComponent implements OnInit {
             "priceCurrency": "INR",
             "price": this.product.price,
             "availability": "https://schema.org/InStock",
-            "url": window.location.href
+            "url": isPlatformBrowser(this.platformId) ? window.location.href : ''
           },
           "aggregateRating": {
             "@type": "AggregateRating",
@@ -75,17 +78,27 @@ export class ProductDetailsComponent implements OnInit {
           }
         };
 
-        const script = document.createElement('script');
-        script.type = 'application/ld+json';
-        script.text = JSON.stringify(jsonLd);
-        document.head.appendChild(script);
+        // Inject JSON-LD (SSR + Browser Safe)
+       if (isPlatformBrowser(this.platformId)) {
+      this.addJsonLd(jsonLd);
+    }
       },
-      error: (err) => {
-        console.error(err);
+      error: () => {
         this.errorMessage = 'Failed to load product details.';
       },
       complete: () => this.isLoading = false
     });
+  }
+
+  // ---------- FIXED JSON-LD INJECTION ----------
+  private addJsonLd(json: any) {
+    const script = this.renderer.createElement('script');
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify(json);
+
+    // Attach to HEAD safely (SSR + Browser)
+    const head = this.el.nativeElement.ownerDocument.head;
+    this.renderer.appendChild(head, script);
   }
 
   selectImage(img: string) {
@@ -93,10 +106,7 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   openUrl(url?: string) {
-    if (url) {
-      window.open(url, '_blank');
-    } else {
-      alert('URL not available.');
-    }
+    if (url) window.open(url, '_blank');
+    else alert('URL not available.');
   }
 }
