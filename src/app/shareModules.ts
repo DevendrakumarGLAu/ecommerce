@@ -16,6 +16,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatTabsModule,
     MatInputModule,
     MatFormFieldModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTabsModule,
+    MatFormFieldModule,
     // other imports
   ],
   exports: [
@@ -25,7 +29,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatIconModule,
     MatTabsModule,
     MatInputModule,
+     MatFormFieldModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTabsModule,
     MatFormFieldModule,
+
   ]
 })
 export class SharedModule { }
