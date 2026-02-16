@@ -9,23 +9,37 @@ import { SnackbarService } from '../services/snackbar.service';
   standalone: true,
   imports: [CommonModule, HttpClientModule, NgFor, RouterModule],
   templateUrl: './product.component.html',
-   styleUrls: ['./product.component.css']
+  styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
   products: any[] = [];
+  isLoading: boolean = true;
 
-  constructor(private http: HttpClient, private router: Router,
-    private snackbar :SnackbarService
+  constructor(
+    private http: HttpClient, 
+    private router: Router,
+    private snackbar: SnackbarService
   ) { }
 
   ngOnInit(): void {
+    this.loadProducts();
+  }
+
+  loadProducts(): void {
     this.http.get<any[]>(`assets/product.json?v=${new Date().getTime()}`).subscribe({
-      next: (data) => this.products = data,
+      next: (data) => {
+        this.products = data;
+        this.isLoading = false;
+      },
       error: (err) => {
         console.error('Failed to load product.json', err);
+        this.snackbar.error('Failed to load products');
+        this.isLoading = false;
       }
     });
   }
+  
+
   encodeId(id: number): string {
     return btoa(id.toString());
   }
@@ -33,24 +47,21 @@ export class ProductComponent implements OnInit {
   getProductSlug(product: any): string {
     const nameSlug = product.name
       .toLowerCase()
-      .replace(/\s+/g, '-')       // replace spaces with -
-      .replace(/[^\w-]+/g, '');   // remove special chars
+      .replace(/\s+/g, '-')
+      .replace(/[^\w-]+/g, '');
     return `${product.id}-${nameSlug}`;
   }
 
-  viewProductDetails(product: number): void {
-  //  const product = this.products.find(p => p.id === productId);
-
-  //   if (product) {
-  //     const encodedId = btoa(productId.toString());
-  //     this.router.navigate(['/product'], { queryParams: { id: encodedId } });
-  const slug = this.getProductSlug(product);
-  if(slug){
-    this.router.navigate(['/product', slug]);
-
+  viewProductDetails(product: any): void {
+    const slug = this.getProductSlug(product);
+    if (slug) {
+      this.router.navigate(['/product', slug]);
     } else {
-      this.snackbar.error('Product not found with name:', product);
+      this.snackbar.error('Product not found');
     }
   }
 
+  getStarArray(rating: number): boolean[] {
+    return Array(5).fill(false).map((_, i) => i < Math.floor(rating));
+  }
 }

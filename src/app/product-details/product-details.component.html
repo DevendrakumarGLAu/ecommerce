@@ -1,66 +1,198 @@
-<div class="container py-3" *ngIf="isLoading">
-  <p class="text-center">Loading product...</p>
+<!-- Loading State -->
+<div class="loading-container" *ngIf="isLoading">
+  <div class="spinner"></div>
+  <p>Loading product details...</p>
 </div>
-<div class="container py-3" *ngIf="product">
-  <div class="row g-4 align-items-start">
 
-    <!-- Left Column: Images -->
-    <div class="col-12 col-md-6 d-flex flex-column align-items-center">
-      <!-- Main Image -->
-      <div class="mb-3 w-100">
-        <img [src]="selectedImage || product.images[0]" 
-            class="img-fluid rounded product-image shadow-sm" 
-             alt="{{ product.name }}">
+<!-- Error State -->
+<div class="error-container" *ngIf="!isLoading && errorMessage">
+  <div class="error-content">
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <circle cx="12" cy="12" r="10" stroke-width="2"/>
+      <line x1="12" y1="8" x2="12" y2="12" stroke-width="2"/>
+      <line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2"/>
+    </svg>
+    <h2>{{ errorMessage }}</h2>
+    <a routerLink="/" class="back-btn">Back to Products</a>
+  </div>
+</div>
+
+<!-- Product Details -->
+<div class="product-details-container" *ngIf="!isLoading && product">
+  <div class="container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb-nav">
+      <a routerLink="/" class="breadcrumb-link">Home</a>
+      <span class="breadcrumb-separator">/</span>
+      <a routerLink="/" class="breadcrumb-link">Products</a>
+      <span class="breadcrumb-separator">/</span>
+      <span class="breadcrumb-current">{{ product.name }}</span>
+    </nav>
+
+    <div class="product-grid">
+      <!-- Left: Image Gallery -->
+      <div class="image-gallery">
+        <!-- Main Image Display -->
+        <div class="main-image-container">
+          <button class="nav-arrow prev-arrow" (click)="prevImage()" *ngIf="product.images.length > 1">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M15 18L9 12L15 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          
+          <div class="main-image-wrapper">
+            <img [src]="selectedImage" 
+                 [alt]="product.name" 
+                 class="main-image">
+          </div>
+
+          <button class="nav-arrow next-arrow" (click)="nextImage()" *ngIf="product.images.length > 1">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M9 18L15 12L9 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <!-- Image Counter -->
+          <div class="image-counter" *ngIf="product.images.length > 1">
+            {{ selectedImageIndex + 1 }} / {{ product.images.length }}
+          </div>
+        </div>
+
+        <!-- Thumbnail Gallery -->
+        <div class="thumbnail-gallery" *ngIf="product.images.length > 1">
+          <div *ngFor="let img of product.images; let i = index" 
+               class="thumbnail-wrapper"
+               [class.active]="i === selectedImageIndex"
+               (click)="selectImage(img, i)">
+            <img [src]="img" [alt]="product.name + ' - Image ' + (i + 1)" class="thumbnail-image">
+          </div>
+        </div>
       </div>
 
-      <!-- Thumbnails -->
-      <div class="d-flex gap-2 flex-wrap justify-content-center">
-        <img *ngFor="let img of product.images" [src]="img"
-             class="img-thumbnail thumbnail-image"
-             [class.selected]="img === selectedImage"
-             alt="{{ product.name }}"
-             (click)="selectImage(img)"
-             style="width: 60px; height: 60px; cursor: pointer;">
+      <!-- Right: Product Information -->
+      <div class="product-info-section">
+        <!-- Product Title -->
+        <h1 class="product-title">{{ product.name }}</h1>
+
+        <!-- Rating & Reviews -->
+        <div class="rating-section">
+          <div class="stars">
+            <i *ngFor="let filled of getStarArray(product.rating)" 
+               class="star-icon"
+               [class.filled]="filled">★</i>
+          </div>
+          <span class="rating-text">{{ product.rating }} out of 5</span>
+          <span class="review-count">(10 reviews)</span>
+        </div>
+
+        <!-- Price Section -->
+        <div class="price-section">
+          <div class="price-row">
+            <span class="current-price">₹{{ product.price }}</span>
+            <span class="price-badge">Best Price</span>
+          </div>
+          <p class="tax-info">Inclusive of all taxes</p>
+        </div>
+
+        <!-- Description -->
+        <div class="description-section">
+          <h3 class="section-title">Description</h3>
+          <p class="product-description">{{ product.description }}</p>
+        </div>
+
+        <!-- Quantity Selector -->
+        <div class="quantity-section">
+          <label class="section-title">Quantity</label>
+          <div class="quantity-controls">
+            <button class="qty-btn" (click)="decreaseQuantity()" [disabled]="quantity <= 1">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M4 8h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <input type="number" 
+                   class="qty-input" 
+                   [(ngModel)]="quantity"
+                   min="1" 
+                   max="10" 
+                   readonly>
+            <button class="qty-btn" (click)="increaseQuantity()" [disabled]="quantity >= 10">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M8 4v8M4 8h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+          <div class="total-price">
+            Total: <strong>₹{{ getTotalPrice() }}</strong>
+          </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta-section">
+          <h3 class="section-title">Available On</h3>
+          <div class="marketplace-grid">
+            <button *ngIf="product.urls?.meesho" 
+                    class="marketplace-btn meesho-btn" 
+                    (click)="openUrl(product.urls.meesho)">
+              <span class="btn-label">Buy on Meesho</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+
+            <button *ngIf="product.urls?.amazon" 
+                    class="marketplace-btn amazon-btn" 
+                    (click)="openUrl(product.urls.amazon)">
+              <span class="btn-label">Buy on Amazon</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+
+            <button *ngIf="product.urls?.flipkart" 
+                    class="marketplace-btn flipkart-btn" 
+                    (click)="openUrl(product.urls.flipkart)">
+              <span class="btn-label">Buy on Flipkart</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Features -->
+        <div class="features-section">
+          <div class="feature-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M9 11l3 3L22 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div>
+              <h4>Quality Assured</h4>
+              <p>Handcrafted with care</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10" stroke-width="2"/>
+              <polyline points="12 6 12 12 16 14" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <div>
+              <h4>Fast Delivery</h4>
+              <p>Ships within 2-3 days</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="9 22 9 12 15 12 15 22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div>
+              <h4>Secure Payment</h4>
+              <p>100% safe transactions</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-    <!-- Right Column: Product Info -->
-    <div class="col-12 col-md-6">
-      <h2 class="fw-bold mb-2">{{ product.name }}</h2>
-      
-      <!-- Price -->
-      <h4 class="text-primary mb-3">₹{{ product.price }}</h4>
-
-      <!-- Rating -->
-      <div class="mb-3 d-flex align-items-center">
-        <ng-container *ngFor="let star of [1,2,3,4,5]">
-          <i class="bi"
-             [class.bi-star-fill]="star <= product.rating"
-             [class.text-warning]="star <= product.rating"
-             [class.bi-star]="star > product.rating"
-             [class.text-secondary]="star > product.rating"
-             style="font-size: 1.3rem; margin-right: 2px;">
-          </i>
-        </ng-container>
-        <span class="ms-2 text-muted">({{ product.rating }} / 5)</span>
-      </div>
-
-      <!-- Description -->
-      <p class="text-muted mb-4">{{ product.description }}</p>
-
-      <!-- Quantity Input -->
-      <div class="mb-4 d-flex align-items-center gap-3">
-        <label for="quantity" class="form-label mb-0">Quantity:</label>
-        <input type="number" id="quantity" class="form-control" value="1" min="1" max="10" style="width: 80px;">
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="d-flex gap-2 flex-wrap">
-        <button *ngIf="product.urls?.meesho" class="btn btn-primary flex-fill" (click)="openUrl(product.urls.meesho)">Meesho</button>
-        <button *ngIf="product.urls?.amazon" class="btn btn-warning flex-fill" (click)="openUrl(product.urls.amazon)">Amazon</button>
-        <button *ngIf="product.urls?.flipkart" class="btn btn-info flex-fill" (click)="openUrl(product.urls.flipkart)">Flipkart</button>
-      </div>
-    </div>
-
   </div>
 </div>

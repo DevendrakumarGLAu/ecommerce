@@ -3,17 +3,26 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit, PLATFORM_ID, ElementRef, Renderer2 } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms'; // ✅ Add this import
 
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [NgIf, RouterModule, NgFor, CommonModule],
+  imports: [
+    NgIf, 
+    RouterModule, 
+    NgFor, 
+    CommonModule,
+    FormsModule  // ✅ Add FormsModule here
+  ],
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.css']
 })
 export class ProductDetailsComponent implements OnInit {
   product: any;
   selectedImage: string = '';
+  selectedImageIndex: number = 0;
+  quantity: number = 1;
   isLoading = true;
   errorMessage = '';
 
@@ -30,15 +39,6 @@ export class ProductDetailsComponent implements OnInit {
   ngOnInit(): void {
     const slug = this.route.snapshot.paramMap.get('slug') || '';
     const productID = Number(slug.split('-')[0]);
-    // const encodedId = this.route.snapshot.paramMap.get('id');
-    // if (!encodedId) {
-    //   this.errorMessage = 'Invalid product ID.';
-    //   this.isLoading = false;
-    //   return;
-    // }
-
-    // const decoded = atob(encodedId);
-    // const productID = Number(decoded);
 
     this.http.get<any[]>('assets/product.json').subscribe({
       next: (data) => {
@@ -51,6 +51,7 @@ export class ProductDetailsComponent implements OnInit {
         }
 
         this.selectedImage = this.product.images[0];
+        this.selectedImageIndex = 0;
 
         // Dynamic meta tags
         this.title.setTitle(`${this.product.name} - Firozabad Bangles`);
@@ -78,10 +79,9 @@ export class ProductDetailsComponent implements OnInit {
           }
         };
 
-        // Inject JSON-LD (SSR + Browser Safe)
-       if (isPlatformBrowser(this.platformId)) {
-      this.addJsonLd(jsonLd);
-    }
+        if (isPlatformBrowser(this.platformId)) {
+          this.addJsonLd(jsonLd);
+        }
       },
       error: () => {
         this.errorMessage = 'Failed to load product details.';
@@ -90,23 +90,58 @@ export class ProductDetailsComponent implements OnInit {
     });
   }
 
-  // ---------- FIXED JSON-LD INJECTION ----------
   private addJsonLd(json: any) {
     const script = this.renderer.createElement('script');
     script.type = 'application/ld+json';
     script.text = JSON.stringify(json);
-
-    // Attach to HEAD safely (SSR + Browser)
     const head = this.el.nativeElement.ownerDocument.head;
     this.renderer.appendChild(head, script);
   }
 
-  selectImage(img: string) {
+  selectImage(img: string, index: number) {
     this.selectedImage = img;
+    this.selectedImageIndex = index;
+  }
+
+  nextImage() {
+    if (this.product && this.product.images) {
+      this.selectedImageIndex = (this.selectedImageIndex + 1) % this.product.images.length;
+      this.selectedImage = this.product.images[this.selectedImageIndex];
+    }
+  }
+
+  prevImage() {
+    if (this.product && this.product.images) {
+      this.selectedImageIndex = (this.selectedImageIndex - 1 + this.product.images.length) % this.product.images.length;
+      this.selectedImage = this.product.images[this.selectedImageIndex];
+    }
+  }
+
+  increaseQuantity() {
+    if (this.quantity < 10) {
+      this.quantity++;
+    }
+  }
+
+  decreaseQuantity() {
+    if (this.quantity > 1) {
+      this.quantity--;
+    }
   }
 
   openUrl(url?: string) {
-    if (url) window.open(url, '_blank');
-    else alert('URL not available.');
+    if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    } else {
+      alert('URL not available.');
+    }
+  }
+
+  getStarArray(rating: number): boolean[] {
+    return Array(5).fill(false).map((_, i) => i < Math.floor(rating));
+  }
+
+  getTotalPrice(): number {
+    return this.product ? this.product.price * this.quantity : 0;
   }
 }

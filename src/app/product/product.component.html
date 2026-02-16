@@ -1,86 +1,115 @@
-<!-- 🔻 Bootstrap Banner -->
-<div class="container-fluid bg-warning border-bottom py-2">
-    <!-- <div class="container-fluid bg-warning border-bottom mt-6 mt-sm-8 custom-margin-top"> -->
-    <div class="row align-items-center text-center text-md-start px-3">
-        <div class="col-md-2 mb-2 mb-md-0">
-            <img src="https://thumbs.dreamstime.com/b/percent-off-d-number-sale-banner-percent-off-d-number-sale-banner-vector-illustration-379771461.jpg"
-                alt="Sale Banner" class="img-fluid rounded">
-        </div>
-        <div class="col-md-10">
-            <h5 class="mb-1 fw-bold text-dark">🎉 Monsoon Sale is Live!</h5>
-            <p class="mb-0 text-dark small">
-                Get up to 40% off on handmade bangles. Limited time offer!
-            </p>
-        </div>
+<!-- Sale Banner -->
+<section class="sale-banner">
+  <div class="container">
+    <div class="banner-content">
+      <div class="banner-image">
+        <img src="https://thumbs.dreamstime.com/b/percent-off-d-number-sale-banner-percent-off-d-number-sale-banner-vector-illustration-379771461.jpg"
+          alt="Sale Banner" loading="eager">
+      </div>
+      <div class="banner-text">
+        <div class="banner-badge">🎉 LIMITED TIME OFFER</div>
+        <h2 class="banner-title">Monsoon Sale is Live!</h2>
+        <p class="banner-description">
+          Get up to <strong>40% off</strong> on handmade bangles. Don't miss out on our exclusive collection!
+        </p>
+      </div>
     </div>
+  </div>
+</section>
+
+<!-- Loading State -->
+<div *ngIf="isLoading" class="loading-container">
+  <div class="spinner"></div>
+  <p>Loading products...</p>
 </div>
 
+<!-- Products Section -->
+<section class="products-section" *ngIf="!isLoading">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Our Premium Collection</h2>
+      <p class="section-subtitle">Discover handcrafted bangles and glass art from Firozabad</p>
+    </div>
 
-<div class="container py-2">
-    <h2 class="mb-4 text-center">Our Products</h2>
-    <div class="row">
-        <div class="col-md-4 mb-4" *ngFor="let product of products" loading="lazy">
-            <div class="card h-100 shadow">
-                <!-- Product Image -->
-                <img [src]="product.images[0]" loading="lazy" decoding="async"
-                    class="card-img-top img-fluid object-fit-contain" alt="{{ product.name }}" />
+    <div class="products-grid">
+      <article class="product-card" *ngFor="let product of products" loading="lazy">
+        <!-- Product Image Container -->
+        <div class="product-image-wrapper" [routerLink]="['/product', getProductSlug(product)]">
+          <img [src]="product.images[0]" 
+               [alt]="product.name" 
+               class="product-image"
+               loading="lazy" 
+               decoding="async">
+          <div class="product-overlay">
+            <button class="quick-view-btn">Quick View</button>
+          </div>
+        </div>
 
-                <!-- Card Body -->
-                <div class="card-body d-flex flex-column">
-                    <!-- Product Name (1 line ellipsis) -->
-                    <h5 class="card-title text-truncate mb-2" title="{{ product.name }}">
-                        {{ product.name }}
-                    </h5>
-
-                    <!-- Product Description (2 lines ellipsis) -->
-                    <p class="card-text text-ellipsis mb-2" title="{{ product.description }}">
-                        {{ product.description }}
-                    </p>
-
-                    <!-- Price -->
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <!-- Price -->
-                        <h6 class="text-primary custom-price-class mb-0">₹{{ product.price }}</h6>
-
-                        <!-- Rating Stars -->
-                        <div class="d-flex align-items-center">
-                            <ng-container *ngFor="let star of [1,2,3,4,5]">
-                                <i class="bi" [class.bi-star-fill]="star <= product.rating"
-                                    [class.text-warning]="star <= product.rating"
-                                    [class.bi-star]="star > product.rating"
-                                    [class.text-secondary]="star > product.rating"
-                                    style="font-size: 1rem; margin-right: 2px;">
-                                </i>
-                            </ng-container>
-                            <span class="ms-1 text-muted" style="font-size: 0.9rem;">({{ product.rating }} / 5)</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- View Details Button -->
-                <!-- <div class="card-footer bg-transparent border-top-0">
-                    <a class="btn btn-primary w-100" [href]="'/product/' + encodeId(product.id.toString())">
-                        View Product Details
-                    </a>
-                </div> -->
-                <div class="card-footer bg-transparent border-top-0">
-                    <a class="btn btn-primary w-100" [routerLink]="['/product', getProductSlug(product)]">
-                        View Product Details
-                    </a>
-                </div>
-
-                <!-- External Links -->
-                <div class="card-footer bg-transparent border-top-0">
-                    <div class="d-flex flex-column flex-md-row flex-md-wrap gap-2">
-                        <a *ngIf="product.urls?.meesho" [href]="product.urls.meesho" target="_blank"
-                            class="btn btn-outline-primary flex-fill">Meesho</a>
-                        <a *ngIf="product.urls?.amazon" [href]="product.urls.amazon" target="_blank"
-                            class="btn btn-outline-warning flex-fill">Amazon</a>
-                        <a *ngIf="product.urls?.flipkart" [href]="product.urls.flipkart" target="_blank"
-                            class="btn btn-outline-info flex-fill">Flipkart</a>
-                    </div>
-                </div>
+        <!-- Product Info -->
+        <div class="product-info">
+          <!-- Rating -->
+          <div class="rating-wrapper">
+            <div class="stars">
+              <i *ngFor="let filled of getStarArray(product.rating)" 
+                 class="star-icon"
+                 [class.filled]="filled">★</i>
             </div>
+            <span class="rating-text">{{ product.rating }}</span>
+          </div>
+
+          <!-- Product Name -->
+          <h3 class="product-name" [title]="product.name">
+            {{ product.name }}
+          </h3>
+
+          <!-- Product Description -->
+          <p class="product-description" [title]="product.description">
+            {{ product.description }}
+          </p>
+
+          <!-- Price & CTA -->
+          <div class="product-footer">
+            <div class="price-section">
+              <span class="price">₹{{ product.price }}</span>
+              <span class="price-label">Best Price</span>
+            </div>
+            <button class="details-btn" [routerLink]="['/product', getProductSlug(product)]">
+              View Details
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Marketplace Links -->
+          <div class="marketplace-links" *ngIf="product.urls">
+            <p class="marketplace-label">Buy Now:</p>
+            <div class="marketplace-buttons">
+              <a *ngIf="product.urls?.meesho" 
+                 [href]="product.urls.meesho" 
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="marketplace-btn meesho">
+                <span>Meesho</span>
+              </a>
+              <a *ngIf="product.urls?.amazon" 
+                 [href]="product.urls.amazon" 
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="marketplace-btn amazon">
+                <span>Amazon</span>
+              </a>
+              <a *ngIf="product.urls?.flipkart" 
+                 [href]="product.urls.flipkart" 
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="marketplace-btn flipkart">
+                <span>Flipkart</span>
+              </a>
+            </div>
+          </div>
         </div>
+      </article>
     </div>
-</div>
+  </div>
+</section>

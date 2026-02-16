@@ -1,9 +1,9 @@
 main {
-  padding-top: 19px; /* desktop */
+  padding-top: 0px; /* desktop */
 }
 
 @media (max-width: 767px) {
   main {
-    padding-top: 100px; /* more space for smaller screens */
+    padding-top: 0px; /* more space for smaller screens */
   }
 }
