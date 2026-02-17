@@ -24,8 +24,12 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     this.loadProducts();
   }
+  trackById(index: number, item: any): number {
+  return item.id;
+}
 
   loadProducts(): void {
+    if (this.products.length) return;
     this.http.get<any[]>(`assets/product.json?v=${new Date().getTime()}`).subscribe({
       next: (data) => {
         this.products = data;

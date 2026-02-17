@@ -1,10 +1,12 @@
-<!-- Sale Banner -->
+<!-- Sale Banner (Always Visible) -->
 <section class="sale-banner">
   <div class="container">
     <div class="banner-content">
       <div class="banner-image">
-        <img src="https://thumbs.dreamstime.com/b/percent-off-d-number-sale-banner-percent-off-d-number-sale-banner-vector-illustration-379771461.jpg"
-          alt="Sale Banner" loading="eager">
+        <img 
+          src="https://thumbs.dreamstime.com/b/percent-off-d-number-sale-banner-percent-off-d-number-sale-banner-vector-illustration-379771461.jpg"
+          alt="Sale Banner"
+          loading="eager">
       </div>
       <div class="banner-text">
         <div class="banner-badge">🎉 LIMITED TIME OFFER</div>
@@ -17,99 +19,87 @@
   </div>
 </section>
 
-<!-- Loading State -->
-<div *ngIf="isLoading" class="loading-container">
-  <div class="spinner"></div>
-  <p>Loading products...</p>
-</div>
 
-<!-- Products Section -->
-<section class="products-section" *ngIf="!isLoading">
+<!-- Products Wrapper -->
+<section class="products-section">
   <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Our Premium Collection</h2>
-      <p class="section-subtitle">Discover handcrafted bangles and glass art from Firozabad</p>
+
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading products...</p>
     </div>
 
-    <div class="products-grid">
-      <article class="product-card" *ngFor="let product of products" loading="lazy">
-        <!-- Product Image Container -->
-        <div class="product-image-wrapper" [routerLink]="['/product', getProductSlug(product)]">
-          <img [src]="product.images[0]" 
-               [alt]="product.name" 
-               class="product-image"
-               loading="lazy" 
-               decoding="async">
-          <div class="product-overlay">
-            <button class="quick-view-btn">Quick View</button>
-          </div>
-        </div>
+    <!-- Products -->
+    <ng-container *ngIf="!isLoading">
+      <div class="section-header">
+        <h2 class="section-title">Our Premium Collection</h2>
+        <p class="section-subtitle">
+          Discover handcrafted bangles and glass art from Firozabad
+        </p>
+      </div>
 
-        <!-- Product Info -->
-        <div class="product-info">
-          <!-- Rating -->
-          <div class="rating-wrapper">
-            <div class="stars">
-              <i *ngFor="let filled of getStarArray(product.rating)" 
-                 class="star-icon"
-                 [class.filled]="filled">★</i>
-            </div>
-            <span class="rating-text">{{ product.rating }}</span>
-          </div>
+      <div class="products-grid">
+        <article 
+          class="product-card"
+          *ngFor="let product of products; trackBy: trackById">
 
-          <!-- Product Name -->
-          <h3 class="product-name" [title]="product.name">
-            {{ product.name }}
-          </h3>
+          <!-- Product Image -->
+          <div 
+            class="product-image-wrapper"
+            [routerLink]="['/product', getProductSlug(product)]">
 
-          <!-- Product Description -->
-          <p class="product-description" [title]="product.description">
-            {{ product.description }}
-          </p>
+            <img
+              [src]="product.images[0]"
+              [alt]="product.name"
+              class="product-image"
+              loading="lazy"
+              decoding="async">
 
-          <!-- Price & CTA -->
-          <div class="product-footer">
-            <div class="price-section">
-              <span class="price">₹{{ product.price }}</span>
-              <span class="price-label">Best Price</span>
-            </div>
-            <button class="details-btn" [routerLink]="['/product', getProductSlug(product)]">
-              View Details
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-          </div>
-
-          <!-- Marketplace Links -->
-          <div class="marketplace-links" *ngIf="product.urls">
-            <p class="marketplace-label">Buy Now:</p>
-            <div class="marketplace-buttons">
-              <a *ngIf="product.urls?.meesho" 
-                 [href]="product.urls.meesho" 
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 class="marketplace-btn meesho">
-                <span>Meesho</span>
-              </a>
-              <a *ngIf="product.urls?.amazon" 
-                 [href]="product.urls.amazon" 
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 class="marketplace-btn amazon">
-                <span>Amazon</span>
-              </a>
-              <a *ngIf="product.urls?.flipkart" 
-                 [href]="product.urls.flipkart" 
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 class="marketplace-btn flipkart">
-                <span>Flipkart</span>
-              </a>
+            <div class="product-overlay">
+              <button class="quick-view-btn">Quick View</button>
             </div>
           </div>
-        </div>
-      </article>
-    </div>
+
+          <!-- Product Info -->
+          <div class="product-info">
+
+            <!-- Rating -->
+            <div class="rating-wrapper">
+              <div class="stars">
+                <i *ngFor="let filled of getStarArray(product.rating)"
+                   class="star-icon"
+                   [class.filled]="filled">★</i>
+              </div>
+              <span class="rating-text">{{ product.rating }}</span>
+            </div>
+
+            <h3 class="product-name" [title]="product.name">
+              {{ product.name }}
+            </h3>
+
+            <p class="product-description" [title]="product.description">
+              {{ product.description }}
+            </p>
+
+            <!-- Price -->
+            <div class="product-footer">
+              <div class="price-section">
+                <span class="price">₹{{ product.price }}</span>
+                <span class="price-label">Best Price</span>
+              </div>
+
+              <button
+                class="details-btn"
+                [routerLink]="['/product', getProductSlug(product)]">
+                View Details
+              </button>
+            </div>
+
+          </div>
+        </article>
+      </div>
+    </ng-container>
+
   </div>
 </section>
