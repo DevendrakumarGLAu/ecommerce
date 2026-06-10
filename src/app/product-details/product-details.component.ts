@@ -4,6 +4,7 @@ import { Component, Inject, OnInit, PLATFORM_ID, ElementRef, Renderer2 } from '@
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms'; // ✅ Add this import
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-product-details',
@@ -25,7 +26,8 @@ export class ProductDetailsComponent implements OnInit {
   quantity: number = 1;
   isLoading = true;
   errorMessage = '';
-
+  cartOpen = false;
+items: any[] = [];
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private route: ActivatedRoute,
@@ -33,10 +35,20 @@ export class ProductDetailsComponent implements OnInit {
     private title: Title,
     private meta: Meta,
     private renderer: Renderer2,
-    private el: ElementRef
+    private el: ElementRef,
+    private cartService: CartService
   ) { }
 
   ngOnInit(): void {
+     this.cartService.cartOpen$
+    .subscribe(open => {
+      this.cartOpen = open;
+    });
+
+  this.cartService.cartItems$
+    .subscribe(items => {
+      this.items = items;
+    }); 
     const slug = this.route.snapshot.paramMap.get('slug') || '';
     const productID = Number(slug.split('-')[0]);
 
@@ -144,4 +156,13 @@ export class ProductDetailsComponent implements OnInit {
   getTotalPrice(): number {
     return this.product ? this.product.price * this.quantity : 0;
   }
+  addToCart() {
+
+  this.cartService.addToCart(
+    this.product,
+    this.quantity
+  );
+
+  this.cartService.openCart();
+}
 }
