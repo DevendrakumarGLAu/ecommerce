@@ -66,7 +66,7 @@
               type="text" 
               class="search-input" 
               [(ngModel)]="searchQuery"
-              (keyup.enter)="onSearch()"
+              (keyup.enter)="onSearch()"  aria-label="Search products"
               placeholder="Search products...">
             <button class="search-btn" (click)="onSearch()">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -78,14 +78,14 @@
 
           <!-- Action Buttons -->
           <div class="action-buttons">
-            <button class="icon-btn desktop-only" title="Login">
+            <button class="icon-btn desktop-only" aria-label="Login" title="Login">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <circle cx="12" cy="7" r="4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </button>
 
-            <button class="icon-btn cart-btn" title="Cart" (click)="openCart()">
+            <button class="icon-btn cart-btn" aria-label="Shopping cart" title="Cart" (click)="openCart()">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <circle cx="9" cy="21" r="1" stroke-width="2"/>
                 <circle cx="20" cy="21" r="1" stroke-width="2"/>
@@ -95,7 +95,7 @@
             </button>
 
             <!-- Mobile Menu Toggle -->
-            <button class="mobile-menu-toggle" (click)="toggleMobileMenu()">
+            <button class="mobile-menu-toggle"  aria-label="Toggle mobile menu" (click)="toggleMobileMenu()">
               <span class="hamburger" [class.active]="isMobileMenuOpen">
                 <span></span>
                 <span></span>
@@ -113,9 +113,9 @@
             type="text" 
             class="search-input" 
             [(ngModel)]="searchQuery"
-            (keyup.enter)="onSearch()"
+            (keyup.enter)="onSearch()"  aria-label="Search products"
             placeholder="Search products...">
-          <button class="search-btn" (click)="onSearch()">
+          <button class="search-btn" (click)="onSearch()"  aria-label="Search products">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <circle cx="11" cy="11" r="8" stroke-width="2"/>
               <path d="M21 21l-4.35-4.35" stroke-width="2" stroke-linecap="round"/>

@@ -34,7 +34,7 @@
       <div class="image-gallery">
         <!-- Main Image Display -->
         <div class="main-image-container">
-          <button class="nav-arrow prev-arrow" (click)="prevImage()" *ngIf="product.images.length > 1">
+          <button class="nav-arrow prev-arrow" (click)="prevImage()" aria-label="Previous image" *ngIf="product.images.length > 1">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <path d="M15 18L9 12L15 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
@@ -44,7 +44,7 @@
             <img [src]="selectedImage" [alt]="product.name" class="main-image">
           </div>
 
-          <button class="nav-arrow next-arrow" (click)="nextImage()" *ngIf="product.images.length > 1">
+          <button class="nav-arrow next-arrow"  aria-label="Next image" (click)="nextImage()" *ngIf="product.images.length > 1">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <path d="M9 18L15 12L9 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
@@ -98,13 +98,13 @@
         <div class="quantity-section">
           <label class="section-title">Quantity</label>
           <div class="quantity-controls">
-            <button class="qty-btn" (click)="decreaseQuantity()" [disabled]="quantity <= 1">
+            <button class="qty-btn" (click)="decreaseQuantity()" aria-label="Decrease quantity" [disabled]="quantity <= 1">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                 <path d="M4 8h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
               </svg>
             </button>
             <input type="number" class="qty-input" [(ngModel)]="quantity" min="1" max="10" readonly>
-            <button class="qty-btn" (click)="increaseQuantity()" [disabled]="quantity >= 10">
+            <button class="qty-btn" aria-label="Increase quantity" (click)="increaseQuantity()" [disabled]="quantity >= 10">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                 <path d="M8 4v8M4 8h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
               </svg>
@@ -142,7 +142,7 @@
                 <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
               </svg>
             </button>
-            <button class="marketplace-btn add-cart-btn" (click)="addToCart()">
+            <button class="marketplace-btn add-cart-btn" aria-label="Shopping cart" (click)="addToCart()">
               <span class="btn-label">Add To Cart</span>
             </button>
 
