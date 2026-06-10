@@ -3,10 +3,9 @@
   <div class="container">
     <div class="banner-content">
       <div class="banner-image">
-        <img 
+        <img
           src="https://thumbs.dreamstime.com/b/percent-off-d-number-sale-banner-percent-off-d-number-sale-banner-vector-illustration-379771461.jpg"
-          alt="Sale Banner"
-          loading="eager">
+          alt="Sale Banner" loading="eager">
       </div>
       <div class="banner-text">
         <div class="banner-badge">🎉 LIMITED TIME OFFER</div>
@@ -40,64 +39,84 @@
       </div>
 
       <div class="products-grid">
-        <article 
-          class="product-card"
-          *ngFor="let product of products; trackBy: trackById">
+        <div class="product-card" *ngFor="let product of products; trackBy: trackById">
 
           <!-- Product Image -->
-          <div 
-            class="product-image-wrapper"
-            [routerLink]="['/product', getProductSlug(product)]">
 
-            <img
-              [src]="product.images[0]"
-              [alt]="product.name"
-              class="product-image"
-              loading="lazy"
-              decoding="async">
+          <div class="image-card">
 
-            <div class="product-overlay">
-              <button class="quick-view-btn">Quick View</button>
-            </div>
+            <img [src]="product.images[0]" [alt]="product.name" class="product-image"
+              [routerLink]="['/product', getProductSlug(product)]">
+
+            <button class="wishlist-btn" aria-label="Add to wishlist">
+              ❤
+            </button>
           </div>
 
-          <!-- Product Info -->
-          <div class="product-info">
+          <!-- Content -->
+          <div class="rating-row m-3">
 
-            <!-- Rating -->
-            <div class="rating-wrapper">
-              <div class="stars">
-                <i *ngFor="let filled of getStarArray(product.rating)"
-                   class="star-icon"
-                   [class.filled]="filled">★</i>
-              </div>
-              <span class="rating-text">{{ product.rating }}</span>
+              <span class="rating-badge">
+                ★ {{product.rating}}
+              </span>
+
+              <span class="review-text">
+                {{product.reviewCount}}
+                Reviews
+              </span>
+
+            </div>
+          <div class="product-content m-3">
+            <h6 class="product-name mb-2" [routerLink]="['/product', getProductSlug(product)]">
+              {{product.name}}
+            </h6>
+
+            <!-- <div class="price-row">
+
+          
+
+              <span class="mrp">
+                ₹{{product.mrp}}
+              </span>
+
             </div>
 
-            <h3 class="product-name" [title]="product.name">
-              {{ product.name }}
-            </h3>
+            <div class="discount-row">
 
-            <p class="product-description" [title]="product.description">
-              {{ product.description }}
-            </p>
+              {{product.discount}}% OFF
 
-            <!-- Price -->
+            </div> -->
+            
             <div class="product-footer">
-              <div class="price-section">
-                <span class="price">₹{{ product.price }}</span>
-                <span class="price-label">Best Price</span>
+
+              <!-- Price Section -->
+              <div class="price-info">
+                <span class="current-price">₹{{ product.price }}</span>
+
+                <span class="delivery-badge">
+                  Secure Delivery
+                </span>
               </div>
 
-              <button
-                class="details-btn"
-                [routerLink]="['/product', getProductSlug(product)]">
-                View Details
-              </button>
+              <!-- Actions -->
+              <div class="action-buttons">
+
+                <button class="details-btn" [routerLink]="['/product', getProductSlug(product)]">
+                  Details
+                </button>
+
+                <button class="cart-btn" (click)="addToCart(product)" aria-label="Add to cart">
+
+                  <i class="fa-solid fa-cart-shopping"></i>
+
+                </button>
+
+              </div>
+
             </div>
 
           </div>
-        </article>
+        </div>
       </div>
     </ng-container>
 

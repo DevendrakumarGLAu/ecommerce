@@ -1,51 +1,140 @@
 [
   {
     "id": 1,
-    "name": "Devanajali Plastic chooda set with cubic ziconia work for women arts and Girls (Pack of Both Hand Chooda Set)",
-    "description": "Elegant Devanjali plastic chooda set adorned with sparkling cubic zirconia, perfect for women and girls. Includes both hand chooda sets for a complete traditional look.",
+    "sku": "FB-001",
+    "slug": "devanajali-plastic-chooda-set",
+    "name": "Devanajali Plastic Chooda Set with Cubic Zirconia Work",
+    "category": "Chooda Set",
+    "subcategory": "Bridal Bangles",
+    "brand": "Devanajali",
+
+    "description": "Elegant Devanjali plastic chooda set adorned with sparkling cubic zirconia, perfect for women and girls.",
+
     "price": 199,
+    "mrp": 299,
+    "discount": 33,
+
     "rating": 4.6,
+    "reviewCount": 234,
+    "soldCount": 1250,
+
+    "stock": 50,
+    "availability": "In Stock",
+
+    "badge": "Best Seller",
+    "isTrending": true,
+    "isFeatured": true,
+
+    "tags": ["Bridal", "Wedding", "Traditional"],
+
     "images": [
       "assets/images/1st_product/4bdbm_512_1.avif",
       "assets/images/1st_product/wcgs0_512_2.avif",
       "assets/images/1st_product/pxics_512_3.avif",
       "assets/images/1st_product/0f1qb_512_4.avif"
     ],
+
+    "delivery": {
+      "freeShipping": true,
+      "codAvailable": true,
+      "estimatedDays": "3-5 Days"
+    },
+
     "urls": {
       "meesho": "https://www.meesho.com/devanajali-plastic-chooda-set-with-cubic-ziconia-work-for-women-arts-and-girls-pack-of-both-hand-chooda-set/p/a7my0m?ms=2&source=Meri+Shop",
       "amazon": "",
       "flipkart": ""
     }
   },
+
   {
     "id": 2,
+    "sku": "FB-002",
+    "slug": "white-crystal-bangle-set",
     "name": "Bangle Set with White Crystal Detailing",
-    "description": "Elegant bangle set featuring sparkling white crystal detailing. Perfect for adding a touch of glamour to any outfit, this stylish accessory complements both casual and formal looks.",
+    "category": "Crystal Bangles",
+    "subcategory": "Fashion Bangles",
+    "brand": "Devanajali",
+
+    "description": "Elegant bangle set featuring sparkling white crystal detailing.",
+
     "price": 199,
+    "mrp": 279,
+    "discount": 29,
+
     "rating": 4.4,
+    "reviewCount": 186,
+    "soldCount": 890,
+
+    "stock": 35,
+    "availability": "In Stock",
+
+    "badge": "Trending",
+    "isTrending": true,
+    "isFeatured": false,
+
+    "tags": ["Fashion", "Party Wear", "Crystal"],
+
     "images": [
       "assets/images/2nd_product/10rs_1-removebg-preview.png",
       "assets/images/2nd_product/10rs_2-removebg-preview.png",
       "assets/images/2nd_product/10rs_3-removebg-preview.png"
     ],
+
+    "delivery": {
+      "freeShipping": true,
+      "codAvailable": true,
+      "estimatedDays": "3-5 Days"
+    },
+
     "urls": {
       "meesho": "https://www.meesho.com/bangle-set-with-white-crystal-detailing/p/aduv5m?ms=2&source=Meri+Shop",
       "amazon": "",
       "flipkart": ""
     }
   },
+
   {
     "id": 3,
-    "name": "Traditional multicolor Glass Bangles Set for Women & Girls | Designer Stone Studded Churi | Kada | Festive Wear Bangles | Handmade Indian Bangles (4) pcs",
-    "description": "Traditional Red Glass Bangles Set for Women & Girls – Elevate your festive look with this designer stone-studded churi set, beautifully handcrafted by skilled Indian artisans. This handmade Indian bangles (4 pcs) set features vibrant red glass bangles paired with elegant kada-style designs, perfect for weddings, festivals, and traditional wear. A must-have accessory to complete your ethnic outfits with grace and sparkle.",
+    "sku": "FB-003",
+    "slug": "traditional-multicolor-glass-bangles",
+    "name": "Traditional Multicolor Glass Bangles Set",
+    "category": "Glass Bangles",
+    "subcategory": "Traditional Bangles",
+    "brand": "Firozabad Bangles",
+
+    "description": "Traditional multicolor handmade glass bangles with designer stone studded work.",
+
     "price": 168,
+    "mrp": 249,
+    "discount": 32,
+
     "rating": 4.7,
+    "reviewCount": 312,
+    "soldCount": 1700,
+
+    "stock": 80,
+    "availability": "In Stock",
+
+    "badge": "Hot Selling",
+    "isTrending": true,
+    "isFeatured": true,
+
+    "tags": ["Festival", "Traditional", "Glass"],
+
     "images": [
       "assets/images/3rd_product/img_1-removebg-preview_2.png",
       "assets/images/3rd_product/img_1-removebg-preview.png",
       "assets/images/3rd_product/img_2.jpeg",
       "assets/images/3rd_product/img_3.jpeg"
     ],
+
+    "delivery": {
+      "freeShipping": true,
+      "codAvailable": true,
+      "estimatedDays": "2-4 Days"
+    },
+
     "urls": {
       "meesho": "https://www.meesho.com/traditional-multicolor-glass-bangles-set-for-women-girls-designer-stone-studded-churi-kada-festive-wear-bangles-handmade-indian-bangles-4-pcs/p/an0z60?ms=2&source=Meri+Shop",
       "amazon": "",

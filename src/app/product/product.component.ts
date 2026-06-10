@@ -68,4 +68,35 @@ export class ProductComponent implements OnInit {
   getStarArray(rating: number): boolean[] {
     return Array(5).fill(false).map((_, i) => i < Math.floor(rating));
   }
+  addToCart(product: any) {
+
+  let cart =
+    JSON.parse(localStorage.getItem('my_cart') || '[]');
+
+  const existing =
+    cart.find((x: any) => x.id === product.id);
+
+  if (existing) {
+
+    existing.quantity++;
+
+  } else {
+
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.images[0],
+      quantity: 1
+    });
+
+  }
+
+  localStorage.setItem(
+    'my_cart',
+    JSON.stringify(cart)
+  );
+
+  this.snackbar.success('Added to cart');
+}
 }
