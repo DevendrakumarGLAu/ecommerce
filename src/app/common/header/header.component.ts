@@ -2,6 +2,7 @@ import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-header',
@@ -18,7 +19,8 @@ export class HeaderComponent {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private router: Router
+    private router: Router,
+    private cartService: CartService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
     this.activeRoute = this.router.url;
@@ -30,6 +32,9 @@ export class HeaderComponent {
     this.isMobileMenuOpen = false;
   }
 
+   openCart() {
+    this.cartService.openCart();
+  }
   onSearch(event?: Event) {
     if (event) {
       event.preventDefault();

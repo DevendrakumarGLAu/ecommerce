@@ -451,13 +451,17 @@
 }
 
 .meesho-btn {
-  color: #8b3a9b;
-  border-color: #8b3a9b;
+  background: rgb(159, 32, 137);
+  /* color: #8b3a9b; */
+  color: rgb(255, 255, 255);
+  /* border-color: #8b3a9b; */
 }
 
 .meesho-btn:hover {
-  background: #8b3a9b;
-  color: white;
+  background: rgb(159, 32, 137);
+  /* color: #8b3a9b; */
+  color: rgb(255, 255, 255);
+  cursor: pointer;
 }
 
 .amazon-btn {

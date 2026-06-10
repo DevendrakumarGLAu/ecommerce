@@ -5,11 +5,12 @@ import { RouterOutlet } from '@angular/router';
 import { LoaderComponent } from '../common/loader/loader.component';
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { NgIf } from '@angular/common';
+import { CartDrawerComponent } from '../common/cart/cart-drawer.component';
 
 @Component({
   selector: 'app-main-layer',
   standalone: true,
-  imports: [RouterOutlet,NgIf,LoaderComponent,HeaderComponent, FooterComponent],
+  imports: [RouterOutlet,NgIf,LoaderComponent,HeaderComponent, FooterComponent, CartDrawerComponent],
   templateUrl: './main-layer.component.html',
   styleUrl: './main-layer.component.css'
 })
