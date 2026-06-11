@@ -1,7 +1,8 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy, PLATFORM_ID, HostListener } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
 import { CartService } from '../../services/cart.service';
 
 @Component({
@@ -11,11 +12,15 @@ import { CartService } from '../../services/cart.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
   isBrowser: boolean;
-  searchQuery: string = '';
-  activeRoute: string = '';
-  isMobileMenuOpen: boolean = false;
+  searchQuery = '';
+  isMobileMenuOpen = false;
+  isSearchOpen = false;
+  isScrolled = false;
+  cartItemCount = 0;
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -23,46 +28,58 @@ export class HeaderComponent {
     private cartService: CartService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
-    this.activeRoute = this.router.url;
   }
 
-  navigateTo(route: string) {
+  ngOnInit(): void {
+    this.cartService.cartItems$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(items => {
+        this.cartItemCount = items.reduce((sum, i) => sum + i.quantity, 0);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  @HostListener('window:scroll')
+  onScroll(): void {
+    if (this.isBrowser) {
+      this.isScrolled = window.scrollY > 60;
+    }
+  }
+
+  navigateTo(route: string): void {
     this.router.navigate([route]);
-    this.activeRoute = route;
     this.isMobileMenuOpen = false;
+    this.isSearchOpen = false;
   }
 
-   openCart() {
+  openCart(): void {
     this.cartService.openCart();
   }
-  onSearch(event?: Event) {
-    if (event) {
-      event.preventDefault();
-    }
-    
+
+  onSearch(event?: Event): void {
+    if (event) event.preventDefault();
     if (this.searchQuery.trim()) {
-      console.log('Searching for:', this.searchQuery);
-      
-      // Option 1: Navigate to home with search query (if you don't have a dedicated search page)
-      this.router.navigate(['/'], { 
-        queryParams: { search: this.searchQuery.trim() } 
-      });
-      
-      // Option 2: If you have a search route, uncomment below
-      // this.router.navigate(['/search'], { 
-      //   queryParams: { q: this.searchQuery.trim() } 
-      // });
-      
-      // Close mobile menu if open
+      this.router.navigate(['/'], { queryParams: { search: this.searchQuery.trim() } });
       this.isMobileMenuOpen = false;
+      this.isSearchOpen = false;
     }
   }
 
-  toggleMobileMenu() {
+  toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    if (this.isMobileMenuOpen) this.isSearchOpen = false;
+  }
+
+  toggleSearch(): void {
+    this.isSearchOpen = !this.isSearchOpen;
+    if (this.isSearchOpen) this.isMobileMenuOpen = false;
   }
 
   isActive(route: string): boolean {
-    return this.activeRoute === route || this.router.url === route;
+    return this.router.url === route || this.router.url.startsWith(route + '?');
   }
 }

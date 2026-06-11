@@ -1,0 +1,80 @@
+<div class="toast-stack" aria-live="polite" aria-label="Notifications">
+  <div
+    *ngFor="let toast of toasts; trackBy: trackById"
+    class="toast"
+    [class]="'toast toast--' + toast.type"
+  >
+
+    <!-- CART TOAST -->
+    <ng-container *ngIf="toast.type === 'cart'">
+      <div class="toast-img-wrap" *ngIf="toast.productImage">
+        <img [src]="toast.productImage" [alt]="toast.productName" class="toast-img">
+      </div>
+      <div class="toast-body">
+        <div class="toast-icon cart-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="toast-text">
+          <span class="toast-title">Added to cart!</span>
+          <span class="toast-sub" *ngIf="toast.productName">{{ toast.productName | slice:0:36 }}{{ toast.productName!.length > 36 ? '…' : '' }}</span>
+        </div>
+        <button class="toast-view-cart" (click)="viewCart(); dismiss(toast.id)">
+          View Cart
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+      <button class="toast-close" (click)="dismiss(toast.id)" aria-label="Dismiss">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </ng-container>
+
+    <!-- WISHLIST TOAST -->
+    <ng-container *ngIf="toast.type === 'wishlist'">
+      <div class="toast-body">
+        <div class="toast-icon wishlist-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <div class="toast-text">
+          <span class="toast-title">{{ toast.message }}</span>
+        </div>
+      </div>
+      <button class="toast-close" (click)="dismiss(toast.id)" aria-label="Dismiss">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </ng-container>
+
+    <!-- SUCCESS TOAST -->
+    <ng-container *ngIf="toast.type === 'success'">
+      <div class="toast-body">
+        <div class="toast-icon success-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="toast-text">
+          <span class="toast-title">{{ toast.message }}</span>
+        </div>
+      </div>
+      <button class="toast-close" (click)="dismiss(toast.id)" aria-label="Dismiss">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </ng-container>
+
+    <!-- ERROR TOAST -->
+    <ng-container *ngIf="toast.type === 'error'">
+      <div class="toast-body">
+        <div class="toast-icon error-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="toast-text">
+          <span class="toast-title">{{ toast.message }}</span>
+        </div>
+      </div>
+      <button class="toast-close" (click)="dismiss(toast.id)" aria-label="Dismiss">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </ng-container>
+
+    <!-- Progress bar -->
+    <div class="toast-progress" [style.animation-duration]="toast.duration + 'ms'"></div>
+
+  </div>
+</div>

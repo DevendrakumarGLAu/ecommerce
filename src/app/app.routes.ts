@@ -29,6 +29,16 @@ export const routes: Routes = [
         path: 'about-us',
         loadComponent: () =>
           import('./common/about/about.component').then(m => m.AboutComponent),
+      },
+      {
+        path: 'size-guide',
+        loadComponent: () =>
+          import('./size-guide/size-guide.component').then(m => m.SizeGuideComponent),
+      },
+      {
+        path: 'faq',
+        loadComponent: () =>
+          import('./faq/faq.component').then(m => m.FaqComponent),
       }
     ]
   },

@@ -1,27 +1,15 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastService } from '../common/toast/toast.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class SnackbarService {
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(private toast: ToastService) {}
 
-  success(message: string, duration: number = 3000) {
-    this.snackBar.open(message, 'OK', {
-      duration,
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
-      panelClass: ['snackbar-success'] // Custom success styling
-    });
+  success(message: string, duration = 3000): void {
+    this.toast.success(message, duration);
   }
 
-  error(message: string, duration: number = 5000) {
-    this.snackBar.open(message, 'Close', {
-      duration,
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
-      panelClass: ['snackbar-error'] // Custom error styling
-    });
+  error(message: string, duration = 4000): void {
+    this.toast.error(message, duration);
   }
 }

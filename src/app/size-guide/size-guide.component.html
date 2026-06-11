@@ -1,0 +1,252 @@
+<div class="sg-page">
+
+  <!-- Hero -->
+  <div class="sg-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a routerLink="/" class="bc-link">Home</a>
+        <span class="bc-sep">›</span>
+        <span class="bc-current">Size Guide</span>
+      </nav>
+      <div class="sg-hero-content">
+        <span class="sg-eyebrow">Perfect Fit Guide</span>
+        <h1 class="sg-hero-title">Find Your Bangle Size</h1>
+        <p class="sg-hero-sub">Traditional Firozabad bangles come in standard Indian sizing. Use our guide to measure your wrist and find your perfect fit.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- How to Measure -->
+  <section class="measure-section">
+    <div class="container">
+
+      <div class="sec-header center-text">
+        <span class="sec-eyebrow">Step-by-Step</span>
+        <h2 class="sec-title">How to Measure Your Wrist</h2>
+        <p class="sec-subtitle">Choose your preferred measuring method below</p>
+      </div>
+
+      <!-- Method Tabs -->
+      <div class="method-tabs">
+        <button class="method-tab" [class.active]="activeMethod === 'string'" (click)="setMethod('string')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2a10 10 0 110 20 10 10 0 010-20z"/><path d="M12 6v6l4 2"/></svg>
+          String Method
+        </button>
+        <button class="method-tab" [class.active]="activeMethod === 'paper'" (click)="setMethod('paper')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Paper Strip
+        </button>
+        <button class="method-tab" [class.active]="activeMethod === 'existing'" (click)="setMethod('existing')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/></svg>
+          Existing Bangle
+        </button>
+      </div>
+
+      <!-- String Method -->
+      <div class="method-panel" *ngIf="activeMethod === 'string'">
+        <div class="method-layout">
+          <div class="method-photo-wrap">
+            <img src="assets/images/measure-wrist.jpg" alt="Measuring wrist with a tape measure" class="method-photo" loading="lazy">
+          </div>
+          <div class="steps-grid">
+            <div class="step-card">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <h3>Wrap a string</h3>
+                <p>Wrap a non-elastic string or thread snugly around the widest part of your hand — across your knuckles with your fingers held together.</p>
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <h3>Mark the overlap</h3>
+                <p>Mark the point where the string meets with a pen. Keep the string just snug — not tight. Your hand should be able to curl slightly.</p>
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <h3>Measure the length</h3>
+                <p>Lay the string flat against a ruler. The length in millimetres is your circumference. Use the chart below to find your size.</p>
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <h3>Find your size</h3>
+                <p>Match your circumference measurement in the size chart. If between two sizes, choose the larger one for comfort.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paper Strip Method -->
+      <div class="method-panel" *ngIf="activeMethod === 'paper'">
+        <div class="method-layout">
+          <div class="method-photo-wrap">
+            <img src="assets/images/measure-wrist.jpg" alt="Measuring wrist circumference" class="method-photo" loading="lazy">
+          </div>
+          <div class="steps-grid">
+            <div class="step-card">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <h3>Cut a paper strip</h3>
+                <p>Cut a strip of paper about 1 cm wide and at least 20 cm long. A receipt or notebook margin works perfectly.</p>
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <h3>Wrap around knuckles</h3>
+                <p>Wrap the paper strip around the widest part of your hand — across all four knuckles with fingers together and thumb tucked.</p>
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <h3>Mark and measure</h3>
+                <p>Mark where the paper overlaps. Lay flat and measure from one end to your mark. Note the measurement in mm.</p>
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <h3>Match to chart</h3>
+                <p>Find your circumference in the size chart below. Round up to the next size if your measurement falls between two sizes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Existing Bangle Method -->
+      <div class="method-panel" *ngIf="activeMethod === 'existing'">
+        <div class="method-layout">
+          <div class="method-photo-wrap">
+            <img src="assets/images/measure-bangle.jpg" alt="Measuring bangle diameter with a tape measure" class="method-photo" loading="lazy">
+          </div>
+          <div class="steps-grid">
+            <div class="step-card">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <h3>Find a well-fitting bangle</h3>
+                <p>Pick a bangle you already own that fits comfortably — it should pass over your knuckles with slight resistance, not loose or painfully tight.</p>
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <h3>Measure the inner diameter</h3>
+                <p>Using a ruler or measuring tape, measure the inside diameter of the bangle — from one inner edge straight across to the opposite inner edge.</p>
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <h3>Note the diameter in mm</h3>
+                <p>Convert to millimetres if needed (1 cm = 10 mm). This diameter measurement maps directly to our size chart.</p>
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <h3>Find your size</h3>
+                <p>Match the diameter in the chart below. Our bangles follow standard Indian sizing so your measurement will correspond exactly.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Size Chart -->
+  <section class="chart-section">
+    <div class="container">
+
+      <div class="sec-header center-text">
+        <span class="sec-eyebrow">Reference Chart</span>
+        <h2 class="sec-title">Bangle Size Chart</h2>
+        <p class="sec-subtitle">Standard Indian bangle sizing — most common sizes are 2/4 to 2/8</p>
+      </div>
+
+      <div class="chart-layout">
+        <div class="diagram-wrap">
+          <img src="assets/images/bangle-diagram.png" alt="Bangle circumference and diameter diagram" class="diagram-img" loading="lazy">
+          <p class="diagram-caption">Measure the <strong>inner diameter</strong> straight across, or wrap a tape around the outside for <strong>circumference</strong>.</p>
+        </div>
+
+      <div class="chart-wrap">
+        <table class="size-table">
+          <caption class="visually-hidden">Bangle size chart with diameter, circumference and wrist fit</caption>
+          <thead>
+            <tr>
+              <th scope="col">Indian Size</th>
+              <th scope="col">Inner Diameter</th>
+              <th scope="col">Circumference</th>
+              <th scope="col">Best Fits</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of sizeChart" [class.popular]="row.size === '2/4' || row.size === '2/6' || row.size === '2/8'">
+              <td class="size-cell">
+                <span class="size-badge">{{ row.size }}</span>
+                <span class="popular-tag" *ngIf="row.size === '2/4' || row.size === '2/6' || row.size === '2/8'">Popular</span>
+              </td>
+              <td>{{ row.diameter }}</td>
+              <td>{{ row.circumference }}</td>
+              <td class="fits-cell">{{ row.fits }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      </div><!-- /chart-layout -->
+
+      <p class="chart-note">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Measurements are inner dimensions. Bangles must pass over the knuckles, so always measure at the widest point of your hand.
+      </p>
+
+    </div>
+  </section>
+
+  <!-- Tips -->
+  <section class="tips-section">
+    <div class="container">
+      <div class="tips-grid">
+        <div class="tip-card" *ngFor="let tip of tips">
+          <div class="tip-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path [attr.d]="tip.icon"/>
+            </svg>
+          </div>
+          <div class="tip-body">
+            <h3 class="tip-title">{{ tip.title }}</h3>
+            <p class="tip-text">{{ tip.text }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="sg-cta">
+    <div class="container">
+      <div class="cta-box">
+        <h2 class="cta-title">Ready to shop?</h2>
+        <p class="cta-sub">Now that you know your size, explore our full collection of handcrafted Firozabad bangles.</p>
+        <div class="cta-btns">
+          <a routerLink="/" class="cta-btn-primary">Browse Collection</a>
+          <a [href]="contact.whatsappMessage" target="_blank" rel="noopener noreferrer" class="cta-btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Ask on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
