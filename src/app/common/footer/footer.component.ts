@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CONTACT } from '../../contact.config';
 
 @Component({
   selector: 'app-footer',
@@ -11,6 +12,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent {
+  readonly contact = CONTACT;
   newsletterEmail: string = '';
   currentYear: number = new Date().getFullYear();
 

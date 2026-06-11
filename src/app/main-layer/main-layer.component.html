@@ -1,16 +1,11 @@
 <app-loader *ngIf="loading"></app-loader>
- <!-- Loader placed globally -->
 
 <app-header></app-header>
 
-<main class="container">
-   <header class="text-center mt-4" >
-    <h1 class="fw-bold">
-      Handmade Firozabad Bangles – Traditional &amp; Festive Collections
-    </h1>
-  </header>
-  <router-outlet></router-outlet> <!-- This is where ProductComponent will load -->
+<main>
+  <router-outlet></router-outlet>
   <app-cart-drawer></app-cart-drawer>
 </main>
 
 <app-footer></app-footer>
+<app-toast></app-toast>

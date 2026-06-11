@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"e:\\\\Beyond_Compare_setup\\\\New folder\\\\ecommerce\" -Force)",
+      "Bash(node -e \"const p=require\\('./package.json'\\); const keys=['@angular/core','@angular/ssr','@angular/platform-server','@angular/build']; keys.forEach\\(k=>{console.log\\(k, p.dependencies?.[k]||p.devDependencies?.[k]||'N/A'\\)}\\)\")",
+      "Bash(node -e \"const p=require\\('./node_modules/@angular/ssr/package.json'\\); console.log\\('ssr actual:', p.version\\)\")",
+      "Bash(node -e \"const p=require\\('./node_modules/@angular/core/package.json'\\); console.log\\('core actual:', p.version\\)\")",
+      "Bash(node -e \"const fs=require\\('fs'\\); const ssr=fs.readFileSync\\('./node_modules/@angular/ssr/fesm2022/ssr.mjs','utf8'\\); console.log\\(ssr.includes\\('getOrCreateAngularServerApp'\\) ? 'FOUND' : 'NOT FOUND'\\); const matches=ssr.match\\(/export[^;]+;/g\\)?.slice\\(0,5\\); console.log\\(matches\\)\")",
+      "Bash(node -e \"const {execSync}=require\\('child_process'\\); console.log\\(execSync\\('npm ls @angular/ssr --depth=0 2>&1'\\).toString\\(\\)\\)\")",
+      "Bash(node -e \"const fs=require\\('fs'\\); const src=fs.readFileSync\\('./node_modules/@angular/build/lib/builders/application/index.js','utf8'\\); const idx=src.indexOf\\('getRoutesFromAngularRouterConfig'\\); console.log\\(src.substring\\(Math.max\\(0,idx-200\\), idx+300\\)\\)\")"
+    ]
+  }
+}

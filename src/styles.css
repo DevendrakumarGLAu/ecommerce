@@ -1,66 +1,198 @@
-/* You can add global styles to this file, and also import other style files */
+/* ================================================================
+   PREMIUM DESIGN SYSTEM — Firozabad Bangles
+   ================================================================ */
 
-/* html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-*/
-
-.container {
-    max-width: 100%;
-} 
+/* ---- DESIGN TOKENS ---- */
 :root {
-
   /* Brand Colors */
-  --primary: #b0004a;
-  --primary-light: #d81b60;
-  --secondary: #7345b6;
-  --background: #f9f9f9;
-  --surface: #ffffff;
+  --primary:        #B0004A;
+  --primary-dark:   #8A0039;
+  --primary-hover:  #C8005A;
+  --primary-light:  #FCE4EC;
+  --secondary:      #6B3FA0;
+  --secondary-dark: #4A2270;
+  --secondary-light:#EDE7F6;
+  --accent:         #C9952A;
+  --accent-light:   #FFF3CD;
 
-  /* Text */
-  --text-primary: #1a1c1c;
-  --text-secondary: #666666;
-  --text-muted: #8e6f74;
+  /* Neutral Palette */
+  --white:     #FFFFFF;
+  --gray-50:   #FAFAF8;
+  --gray-100:  #F4F4F2;
+  --gray-200:  #E8E8E5;
+  --gray-300:  #D0CFC9;
+  --gray-400:  #ABABAB;
+  --gray-500:  #6B6B6B;
+  --gray-600:  #4A4A4A;
+  --gray-700:  #2D2D2D;
+  --gray-800:  #1A1A1A;
+  --gray-900:  #0D0D0D;
 
-  /* Border */
-  --border-color: #e3bdc3;
+  /* Semantic */
+  --success:       #16A34A;
+  --success-light: #DCFCE7;
+  --error:         #DC2626;
+  --error-light:   #FEE2E2;
+  --warning:       #D97706;
 
-  /* Success */
-  --success: #16a34a;
+  /* Surfaces */
+  --bg:          #FAFAF8;
+  --surface:     #FFFFFF;
+  --surface-2:   #F8F5F2;
+  --dark-bg:     #0F0A1E;
 
-  /* Radius */
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
+  /* Typography */
+  --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Spacing scale */
+  --sp-1:  0.25rem;
+  --sp-2:  0.5rem;
+  --sp-3:  0.75rem;
+  --sp-4:  1rem;
+  --sp-5:  1.25rem;
+  --sp-6:  1.5rem;
+  --sp-8:  2rem;
+  --sp-10: 2.5rem;
+  --sp-12: 3rem;
+  --sp-16: 4rem;
+  --sp-20: 5rem;
+  --sp-24: 6rem;
+
+  /* Border radius */
+  --r-xs:   4px;
+  --r-sm:   8px;
+  --r-md:   12px;
+  --r-lg:   20px;
+  --r-xl:   28px;
+  --r-full: 9999px;
 
   /* Shadows */
-  --shadow-sm: 0 4px 20px rgba(176, 0, 74, 0.05);
-  --shadow-md: 0 8px 30px rgba(176, 0, 74, 0.12);
-  --shadow-lg: 0 15px 40px rgba(176, 0, 74, 0.18);
+  --sh-xs:    0 1px 3px rgba(0,0,0,0.06);
+  --sh-sm:    0 2px 8px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.05);
+  --sh-md:    0 4px 20px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.05);
+  --sh-lg:    0 8px 32px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.06);
+  --sh-xl:    0 16px 48px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.07);
+  --sh-brand: 0 8px 28px rgba(176,0,74,0.28);
+  --sh-brand-lg: 0 16px 48px rgba(176,0,74,0.32);
 
-  /* Spacing */
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 40px;
+  /* Transitions */
+  --t-fast:   0.15s cubic-bezier(0.4,0,0.2,1);
+  --t:        0.25s cubic-bezier(0.4,0,0.2,1);
+  --t-slow:   0.4s  cubic-bezier(0.4,0,0.2,1);
+  --t-spring: 0.5s  cubic-bezier(0.34,1.56,0.64,1);
 
-  /* Animation */
-  --transition: all 0.3s ease;
+  /* Layout */
+  --max-w: 1320px;
+  --pad:   1.5rem;
+
+  /* Legacy vars (referenced by existing code) */
+  --primary-light-legacy: #d81b60;
+  --background:      var(--bg);
+  --text-primary:    var(--gray-800);
+  --text-secondary:  var(--gray-500);
+  --text-muted:      var(--gray-400);
+  --border-color:    var(--gray-200);
+  --success-old:     var(--success);
+  --radius-sm:       var(--r-sm);
+  --radius-md:       var(--r-md);
+  --radius-lg:       var(--r-lg);
+  --shadow-sm:       var(--sh-sm);
+  --shadow-md:       var(--sh-md);
+  --shadow-lg:       var(--sh-lg);
+  --space-xs: var(--sp-1);
+  --space-sm: var(--sp-2);
+  --space-md: var(--sp-4);
+  --space-lg: var(--sp-6);
+  --space-xl: var(--sp-10);
+  --transition: var(--t);
 }
 
-body{
-  background: var(--background);
-  color: var(--text-primary);
+/* ---- RESET ---- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.editorial-shadow{
-  box-shadow: var(--shadow-sm);
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--gray-800);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.bangle-gradient{
-  background: linear-gradient(
-    135deg,
-    var(--secondary),
-    var(--primary)
-  );
+img { max-width: 100%; height: auto; display: block; }
+button { font-family: var(--font-body); cursor: pointer; }
+input, select, textarea { font-family: var(--font-body); }
+a { text-decoration: none; color: inherit; }
+ul, ol { list-style: none; }
+
+/* ---- GLOBAL CONTAINER ---- */
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--pad);
+}
+
+/* ---- SCROLLBAR ---- */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--gray-100); }
+::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: var(--r-full); }
+::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+/* ---- SELECTION ---- */
+::selection { background: var(--primary-light); color: var(--primary-dark); }
+
+/* ---- FOCUS ---- */
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+/* ---- UTILITY ---- */
+.bangle-gradient { background: linear-gradient(135deg, var(--secondary), var(--primary)); }
+.brand-gradient  { background: linear-gradient(135deg, var(--primary), var(--secondary)); }
+.editorial-shadow { box-shadow: var(--sh-sm); }
+
+/* ---- SKELETON ANIMATION ---- */
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--gray-100) 25%, var(--gray-200) 50%, var(--gray-100) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+  border-radius: var(--r-sm);
+}
+
+/* ---- FADE IN ANIMATION ---- */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse-ring {
+  0%   { transform: scale(0.95); opacity: 0.8; }
+  50%  { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-12px); }
 }

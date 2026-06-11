@@ -39,7 +39,7 @@ export class CartService {
   }
 
   loadCart() {
-    const data = localStorage.getItem(this.storageKey);
+    const data = localStorage?.getItem(this.storageKey);
 
     if (data) {
       this.cartItems.next(JSON.parse(data));
@@ -108,7 +108,7 @@ export class CartService {
   }
 
   clearCart() {
-    localStorage.removeItem(this.storageKey);
+    localStorage?.removeItem(this.storageKey);
     this.cartItems.next([]);
   }
 

@@ -6,11 +6,12 @@ import { LoaderComponent } from '../common/loader/loader.component';
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { CartDrawerComponent } from '../common/cart/cart-drawer.component';
+import { ToastComponent } from '../common/toast/toast.component';
 
 @Component({
   selector: 'app-main-layer',
   standalone: true,
-  imports: [RouterOutlet,NgIf,LoaderComponent,HeaderComponent, FooterComponent, CartDrawerComponent],
+  imports: [RouterOutlet, NgIf, LoaderComponent, HeaderComponent, FooterComponent, CartDrawerComponent, ToastComponent],
   templateUrl: './main-layer.component.html',
   styleUrl: './main-layer.component.css'
 })
