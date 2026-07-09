@@ -221,11 +221,28 @@
 .thumb:hover  { border-color: var(--primary); transform: scale(1.04); }
 .thumb.active { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
 
-.thumb img {
+.thumb img,
+.thumb video {
   width: 100%;
   height: 100%;
   object-fit: contain;
   padding: 4px;
+}
+
+.thumb {
+  position: relative;
+}
+
+.thumb-play-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.9rem;
+  background: rgba(0, 0, 0, 0.35);
+  pointer-events: none;
 }
 
 /* ---- INFO COLUMN ---- */
@@ -471,10 +488,16 @@
 .meesho  { color: #9F2089; border-color: #9F2089; }
 .amazon  { color: #FF9900; border-color: #FF9900; }
 .flipkart{ color: #2874F0; border-color: #2874F0; }
+.myntra  { color: #FF3F6C; border-color: #FF3F6C; }
+.snapdeal{ color: #E40046; border-color: #E40046; }
+.other   { color: var(--gray-600); border-color: var(--gray-600); }
 
 .meesho:hover   { background: #9F2089; color: #fff; }
 .amazon:hover   { background: #FF9900; color: #fff; }
 .flipkart:hover { background: #2874F0; color: #fff; }
+.myntra:hover   { background: #FF3F6C; color: #fff; }
+.snapdeal:hover { background: #E40046; color: #fff; }
+.other:hover    { background: var(--gray-600); color: #fff; }
 
 /* Assurance Strip */
 .assurance-strip {

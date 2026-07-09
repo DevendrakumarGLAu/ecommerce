@@ -368,6 +368,19 @@
   color: var(--gray-500);
 }
 
+.btn-clear-search {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.btn-clear-search:hover { color: var(--primary-hover); }
+
 /* Filters Bar */
 .filters-bar {
   display: flex;
@@ -385,6 +398,7 @@
   scrollbar-width: none;
   padding: 4px 2px;
   flex: 1;
+  min-width: 0;
 }
 
 .tabs-scroll::-webkit-scrollbar { display: none; }

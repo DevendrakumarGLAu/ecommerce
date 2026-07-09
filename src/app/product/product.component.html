@@ -120,10 +120,19 @@
   <div class="container">
 
     <div class="sec-header">
-      <div class="sec-header-text">
+      <div class="sec-header-text" *ngIf="!searchQuery">
         <span class="sec-eyebrow">Our Collection</span>
         <h2 class="sec-title">Premium Bangles &amp; Glass Art</h2>
         <p class="sec-subtitle">Handcrafted elegance from Firozabad's master artisans</p>
+      </div>
+      <div class="sec-header-text" *ngIf="searchQuery">
+        <span class="sec-eyebrow">Search Results</span>
+        <h2 class="sec-title">Results for "{{ searchQuery }}"</h2>
+        <p class="sec-subtitle">
+          {{ filteredProducts.length }} product{{ filteredProducts.length === 1 ? '' : 's' }} found
+          &nbsp;·&nbsp;
+          <button class="btn-clear-search" (click)="clearSearch()">Clear search</button>
+        </p>
       </div>
     </div>
 
@@ -148,7 +157,6 @@
           <option value="newest">Newest First</option>
           <option value="price-asc">Price: Low → High</option>
           <option value="price-desc">Price: High → Low</option>
-          <option value="rating">Best Rated</option>
         </select>
       </div>
     </div>
@@ -174,9 +182,16 @@
 
       <div class="empty-state" *ngIf="filteredProducts.length === 0">
         <div class="empty-icon">🔍</div>
-        <h3>No products found</h3>
-        <p>Try a different category</p>
-        <button class="btn-reset" (click)="setCategory('All')">View All Products</button>
+        <ng-container *ngIf="searchQuery; else noCategoryMatch">
+          <h3>No results for "{{ searchQuery }}"</h3>
+          <p>Try a different search term</p>
+          <button class="btn-reset" (click)="clearSearch()">View All Products</button>
+        </ng-container>
+        <ng-template #noCategoryMatch>
+          <h3>No products found</h3>
+          <p>Try a different category</p>
+          <button class="btn-reset" (click)="setCategory('All')">View All Products</button>
+        </ng-template>
       </div>
 
       <article
@@ -185,7 +200,7 @@
         role="listitem">
 
         <div class="card-badges">
-          <span class="badge-label" *ngIf="product.badge">{{ product.badge }}</span>
+          <span class="badge-label" *ngIf="getBadgeLabel(product) as label">{{ label }}</span>
           <span class="badge-discount" *ngIf="getDiscount(product) > 0">-{{ getDiscount(product) }}%</span>
         </div>
 
@@ -201,18 +216,11 @@
           </svg>
         </button>
 
-        <div class="card-img-wrap" [routerLink]="['/product', getProductSlug(product)]">
+        <div class="card-img-wrap" [routerLink]="['/product', product.slug]">
           <img
-            [src]="product.images[0]"
-            [alt]="product.name"
+           [src]="product.images?.[0]?.image_url  || 'assets/placeholder-product.svg'"
+            [alt]="product.title"
             class="card-img img-primary"
-            loading="lazy"
-            decoding="async">
-          <img
-            *ngIf="product.images[1]"
-            [src]="product.images[1]"
-            [alt]="product.name + ' - alternate view'"
-            class="card-img img-secondary"
             loading="lazy"
             decoding="async">
 
@@ -229,43 +237,29 @@
 
         <div class="card-body">
 
-          <div class="card-rating" *ngIf="product.rating">
-            <div class="stars" [attr.aria-label]="'Rating: ' + product.rating + ' out of 5'">
-              <svg *ngFor="let star of getStars(product.rating)"
-                width="13" height="13" viewBox="0 0 24 24"
-                [class]="'star star-' + star">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                  [attr.fill]="star === 'full' ? '#F59E0B' : star === 'half' ? '#F59E0B' : '#E5E7EB'"
-                  stroke="none"/>
-              </svg>
-            </div>
-            <span class="rating-val">{{ product.rating }}</span>
-            <span class="review-cnt" *ngIf="product.reviewCount">({{ product.reviewCount }})</span>
-          </div>
-
-          <h3 class="card-name" [routerLink]="['/product', getProductSlug(product)]">
-            {{ product.name }}
+          <h3 class="card-name" [routerLink]="['/product', product.slug]">
+            {{ product.title }}
           </h3>
 
-          <span class="card-category" *ngIf="product.category">{{ product.category }}</span>
+          <span class="card-category" *ngIf="product.category_name">{{ product.category_name }}</span>
 
           <div class="card-footer">
             <div class="price-row">
-              <span class="price-curr">₹{{ product.price }}</span>
-              <span class="price-mrp" *ngIf="product.mrp && product.mrp !== product.price">₹{{ product.mrp }}</span>
+              <span class="price-curr">₹{{ getDisplayPrice(product) }}</span>
+              <span class="price-mrp" *ngIf="product.sale_price">₹{{ product.price }}</span>
             </div>
 
             <div class="card-actions">
               <button
                 class="btn-view"
-                [routerLink]="['/product', getProductSlug(product)]"
-                [attr.aria-label]="'View ' + product.name + ' details'">
+                [routerLink]="['/product', product.slug]"
+                [attr.aria-label]="'View ' + product.title + ' details'">
                 Details
               </button>
               <button
                 class="btn-cart"
                 (click)="addToCart(product, $event)"
-                [attr.aria-label]="'Add ' + product.name + ' to cart'">
+                [attr.aria-label]="'Add ' + product.title + ' to cart'">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="9" cy="21" r="1"/>
                   <circle cx="20" cy="21" r="1"/>
@@ -273,13 +267,6 @@
                 </svg>
               </button>
             </div>
-          </div>
-
-          <div class="delivery-tag" *ngIf="product.delivery?.freeShipping">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-            Free Delivery
           </div>
 
         </div>

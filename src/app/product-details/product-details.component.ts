@@ -1,11 +1,21 @@
 import { CommonModule, isPlatformBrowser, NgFor, NgIf } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit, PLATFORM_ID, ElementRef, Renderer2 } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../services/cart.service';
+import { ProductService } from '../services/product.service';
 import { ToastService } from '../common/toast/toast.service';
+import {
+  GalleryItem,
+  MARKETPLACE_PLATFORM_LABELS,
+  MarketplaceLink,
+  Product,
+  ProductSummary,
+  buildGallery,
+  discountPercent,
+  effectivePrice
+} from '../models/product.model';
 
 type Tab = 'description' | 'specs' | 'reviews' | 'shipping';
 
@@ -17,15 +27,16 @@ type Tab = 'description' | 'specs' | 'reviews' | 'shipping';
   styleUrls: ['./product-details.component.css']
 })
 export class ProductDetailsComponent implements OnInit {
-  product: any;
-  relatedProducts: any[] = [];
-  selectedImage = '';
-  selectedImageIndex = 0;
+  product: Product | undefined;
+  relatedProducts: ProductSummary[] = [];
+  gallery: GalleryItem[] = [];
+  selectedIndex = 0;
   quantity = 1;
   isLoading = true;
   errorMessage = '';
   activeTab: Tab = 'description';
   isWishlisted = false;
+  platformLabels = MARKETPLACE_PLATFORM_LABELS;
 
   sampleReviews = [
     { name: 'Priya S.', rating: 5, date: 'Dec 2024', text: 'Absolutely gorgeous! The quality is even better than the photos suggest. Perfect for festive occasions.' },
@@ -36,7 +47,7 @@ export class ProductDetailsComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private route: ActivatedRoute,
-    private http: HttpClient,
+    private productService: ProductService,
     private title: Title,
     private meta: Meta,
     private renderer: Renderer2,
@@ -47,58 +58,59 @@ export class ProductDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     const slug = this.route.snapshot.paramMap.get('slug') || '';
-    const productID = Number(slug.split('-')[0]);
 
-    this.http.get<any[]>('assets/product.json').subscribe({
-      next: (data) => {
-        this.product = data.find(p => p.id === productID);
+    this.productService.getBySlug(slug).subscribe({
+      next: (product) => {
+        this.product = product;
+        this.gallery = buildGallery(product);
+        this.selectedIndex = 0;
 
-        if (!this.product) {
-          this.errorMessage = 'Product not found!';
-          this.isLoading = false;
-          return;
+        this.title.setTitle(`${product.title} — Firozabad Bangles`);
+        if (product.meta_description || product.short_description) {
+          this.meta.updateTag({ name: 'description', content: product.meta_description || product.short_description || '' });
         }
-
-        this.relatedProducts = data.filter(p => p.id !== productID);
-        this.selectedImage = this.product.images[0];
-        this.selectedImageIndex = 0;
-
-        this.title.setTitle(`${this.product.name} — Firozabad Bangles`);
-        this.meta.updateTag({ name: 'description', content: this.product.description });
 
         const jsonLd = {
           '@context': 'https://schema.org/',
           '@type': 'Product',
-          name: this.product.name,
-          image: this.product.images,
-          description: this.product.description,
+          name: product.title,
+          image: product.images.map((img) => img.image_url),
+          description: product.description || product.short_description || '',
           brand: 'Firozabad Bangles',
           offers: {
             '@type': 'Offer',
             priceCurrency: 'INR',
-            price: this.product.price,
-            availability: 'https://schema.org/InStock',
+            price: effectivePrice(product),
+            availability:
+              product.stock_status === 'in_stock' ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
             url: isPlatformBrowser(this.platformId) ? window.location.href : ''
-          },
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: this.product.rating || 4,
-            reviewCount: this.product.reviewCount || 10
           }
         };
 
         if (isPlatformBrowser(this.platformId)) {
           this.injectJsonLd(jsonLd);
         }
+
+        this.loadRelatedProducts(product);
+        this.isLoading = false;
       },
       error: () => {
-        this.errorMessage = 'Failed to load product details.';
-      },
-      complete: () => { this.isLoading = false; }
+        this.errorMessage = 'Product not found!';
+        this.isLoading = false;
+      }
     });
   }
 
-  private injectJsonLd(json: any): void {
+  private loadRelatedProducts(product: Product): void {
+    this.productService.list({ limit: 5 }, { category_slug: product.category.slug }).subscribe({
+      next: (result) => {
+        this.relatedProducts = result.items.filter((p) => p.id !== product.id);
+      },
+      error: () => void 0 // related products are a nice-to-have; ignore failures
+    });
+  }
+
+  private injectJsonLd(json: unknown): void {
     const script = this.renderer.createElement('script');
     script.type = 'application/ld+json';
     script.text = JSON.stringify(json);
@@ -109,39 +121,55 @@ export class ProductDetailsComponent implements OnInit {
     this.activeTab = tab;
   }
 
-  selectImage(img: string, index: number): void {
-    this.selectedImage = img;
-    this.selectedImageIndex = index;
+  selectMedia(index: number): void {
+    this.selectedIndex = index;
   }
 
   nextImage(): void {
-    if (this.product?.images) {
-      this.selectedImageIndex = (this.selectedImageIndex + 1) % this.product.images.length;
-      this.selectedImage = this.product.images[this.selectedImageIndex];
+    if (this.gallery.length) {
+      this.selectedIndex = (this.selectedIndex + 1) % this.gallery.length;
     }
   }
 
   prevImage(): void {
-    if (this.product?.images) {
-      this.selectedImageIndex = (this.selectedImageIndex - 1 + this.product.images.length) % this.product.images.length;
-      this.selectedImage = this.product.images[this.selectedImageIndex];
+    if (this.gallery.length) {
+      this.selectedIndex = (this.selectedIndex - 1 + this.gallery.length) % this.gallery.length;
     }
+  }
+
+  get currentMedia(): GalleryItem | undefined {
+    return this.gallery[this.selectedIndex];
   }
 
   increaseQty(): void { if (this.quantity < 10) this.quantity++; }
   decreaseQty(): void { if (this.quantity > 1) this.quantity--; }
 
+  getDisplayPrice(): number {
+    return this.product ? effectivePrice(this.product) : 0;
+  }
+
   getTotalPrice(): number {
-    return this.product ? this.product.price * this.quantity : 0;
+    return this.product ? effectivePrice(this.product) * this.quantity : 0;
   }
 
   addToCart(): void {
-    this.cartService.addToCart(this.product, this.quantity);
-    this.toast.cart(this.product);
+    if (!this.product) return;
+    const cartInput = {
+      id: this.product.id,
+      name: this.product.title,
+      price: effectivePrice(this.product),
+      image: this.product.images[0]?.image_url ?? this.product.og_image ?? ''
+    };
+    this.cartService.addToCart(cartInput, this.quantity);
+    this.toast.cart({ name: this.product.title, image: cartInput.image });
   }
 
   openUrl(url?: string): void {
     if (url) window.open(url, '_blank', 'noopener,noreferrer');
+  }
+
+  linkLabel(link: MarketplaceLink): string {
+    return link.platform === 'other' ? link.custom_label || 'Other' : this.platformLabels[link.platform];
   }
 
   toggleWishlist(): void {
@@ -153,29 +181,18 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   getDiscount(): number {
-    if (!this.product) return 0;
-    if (this.product.discount) return this.product.discount;
-    if (this.product.mrp && this.product.price && this.product.mrp > this.product.price) {
-      return Math.round((1 - this.product.price / this.product.mrp) * 100);
-    }
-    return 0;
+    return this.product ? discountPercent(this.product) : 0;
   }
 
   get starRange(): number[] {
     return [1, 2, 3, 4, 5];
   }
 
-  getProductSlug(p: any): string {
-    const name = (p.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-    return `${p.id}-${name}`;
+  getProductDiscount(p: ProductSummary): number {
+    return discountPercent(p);
   }
 
-  getProductDiscount(p: any): number {
-    if (!p) return 0;
-    if (p.discount) return p.discount;
-    if (p.mrp && p.price && p.mrp > p.price) {
-      return Math.round((1 - p.price / p.mrp) * 100);
-    }
-    return 0;
+  getRelatedPrice(p: ProductSummary): number {
+    return effectivePrice(p);
   }
 }

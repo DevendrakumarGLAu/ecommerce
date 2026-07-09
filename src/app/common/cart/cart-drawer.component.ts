@@ -42,11 +42,11 @@ export class CartDrawerComponent implements OnInit, OnDestroy {
     this.cartService.closeCart();
   }
 
-  updateQuantity(id: number, qty: number) {
+  updateQuantity(id: string, qty: number) {
     this.cartService.updateQuantity(id, qty);
   }
 
-  removeItem(id: number) {
+  removeItem(id: string) {
     this.cartService.removeItem(id);
   }
 

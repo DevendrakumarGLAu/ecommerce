@@ -41,6 +41,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    if (this.isBrowser) document.body.style.overflow = '';
   }
 
   @HostListener('window:scroll')
@@ -54,6 +55,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate([route]);
     this.isMobileMenuOpen = false;
     this.isSearchOpen = false;
+    if (this.isBrowser) document.body.style.overflow = '';
   }
 
   openCart(): void {
@@ -72,6 +74,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
     if (this.isMobileMenuOpen) this.isSearchOpen = false;
+    if (this.isBrowser) {
+      document.body.style.overflow = this.isMobileMenuOpen ? 'hidden' : '';
+    }
   }
 
   toggleSearch(): void {

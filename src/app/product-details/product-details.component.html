@@ -21,46 +21,56 @@
       <span class="bc-sep">›</span>
       <a routerLink="/" class="bc-link">Collections</a>
       <span class="bc-sep">›</span>
-      <span class="bc-current">{{ product.name }}</span>
+      <span class="bc-current">{{ product.title }}</span>
     </nav>
 
     <div class="detail-grid">
 
       <div class="gallery-col">
         <div class="main-img-wrap">
-          <button class="nav-arrow prev" (click)="prevImage()" *ngIf="product.images.length > 1" aria-label="Previous image">
+          <button class="nav-arrow prev" (click)="prevImage()" *ngIf="gallery.length > 1" aria-label="Previous">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
               <polyline points="15 18 9 12 15 6"/>
             </svg>
           </button>
 
           <div class="main-img-container">
-            <img [src]="selectedImage" [alt]="product.name" class="main-img">
+            <video
+              *ngIf="currentMedia?.type === 'video'; else mainImage"
+              [src]="currentMedia?.url"
+              controls
+              class="main-img"
+            ></video>
+            <ng-template #mainImage>
+              <img [src]="currentMedia?.url || 'assets/placeholder-product.svg'" [alt]="currentMedia?.alt || product.title" class="main-img">
+            </ng-template>
           </div>
 
-          <button class="nav-arrow next" (click)="nextImage()" *ngIf="product.images.length > 1" aria-label="Next image">
+          <button class="nav-arrow next" (click)="nextImage()" *ngIf="gallery.length > 1" aria-label="Next">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
               <polyline points="9 18 15 12 9 6"/>
             </svg>
           </button>
 
-          <div class="img-counter" *ngIf="product.images.length > 1">
-            {{ selectedImageIndex + 1 }} / {{ product.images.length }}
+          <div class="img-counter" *ngIf="gallery.length > 1">
+            {{ selectedIndex + 1 }} / {{ gallery.length }}
           </div>
-
-          <span class="img-badge" *ngIf="product.badge">{{ product.badge }}</span>
 
           <div class="discount-ribbon" *ngIf="getDiscount() > 0">-{{ getDiscount() }}%</div>
         </div>
 
-        <div class="thumbnails" *ngIf="product.images.length > 1">
+        <div class="thumbnails" *ngIf="gallery.length > 1">
           <button
-            *ngFor="let img of product.images; let i = index"
+            *ngFor="let item of gallery; let i = index"
             class="thumb"
-            [class.active]="i === selectedImageIndex"
-            (click)="selectImage(img, i)"
+            [class.active]="i === selectedIndex"
+            (click)="selectMedia(i)"
             [attr.aria-label]="'View ' + (i + 1)">
-            <img [src]="img" [alt]="product.name + ' — view ' + (i+1)" loading="lazy">
+            <video *ngIf="item.type === 'video'; else thumbImage" [src]="item.url" muted></video>
+            <ng-template #thumbImage>
+              <img [src]="item.url" [alt]="item.alt" loading="lazy">
+            </ng-template>
+            <span class="thumb-play-icon" *ngIf="item.type === 'video'">▶</span>
           </button>
         </div>
       </div>
@@ -68,25 +78,16 @@
       <div class="info-col">
 
         <div class="product-meta" *ngIf="product.category">
-          <span class="meta-category">{{ product.category }}</span>
+          <span class="meta-category">{{ product.category.name }}</span>
           <span class="meta-sku" *ngIf="product.sku">SKU: {{ product.sku }}</span>
         </div>
 
-        <h1 class="product-title">{{ product.name }}</h1>
-
-        <div class="rating-row" *ngIf="product.rating">
-          <div class="stars-wrap">
-            <i *ngFor="let filled of getStarArray(product.rating)" class="star" [class.filled]="filled">★</i>
-          </div>
-          <span class="rating-score">{{ product.rating }}</span>
-          <span class="rating-divider">·</span>
-          <span class="rating-reviews">{{ product.reviewCount || sampleReviews.length }} Reviews</span>
-        </div>
+        <h1 class="product-title">{{ product.title }}</h1>
 
         <div class="price-block">
           <div class="price-main-row">
-            <span class="price-now">₹{{ product.price }}</span>
-            <span class="price-was" *ngIf="product.mrp && product.mrp !== product.price">₹{{ product.mrp }}</span>
+            <span class="price-now">₹{{ getDisplayPrice() }}</span>
+            <span class="price-was" *ngIf="product.sale_price">₹{{ product.price }}</span>
             <span class="price-save" *ngIf="getDiscount() > 0">Save {{ getDiscount() }}%</span>
           </div>
           <p class="price-note">Inclusive of all taxes · Free shipping above ₹999</p>
@@ -125,19 +126,15 @@
           </button>
         </div>
 
-        <div class="marketplace-block" *ngIf="product.urls?.meesho || product.urls?.amazon || product.urls?.flipkart">
+        <div class="marketplace-block" *ngIf="product.marketplace_links.length">
           <p class="block-label">Also Available On</p>
           <div class="marketplace-row">
-            <button *ngIf="product.urls?.meesho" class="mkt-btn meesho" (click)="openUrl(product.urls.meesho)">
-              Meesho
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            </button>
-            <button *ngIf="product.urls?.amazon" class="mkt-btn amazon" (click)="openUrl(product.urls.amazon)">
-              Amazon
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            </button>
-            <button *ngIf="product.urls?.flipkart" class="mkt-btn flipkart" (click)="openUrl(product.urls.flipkart)">
-              Flipkart
+            <button
+              *ngFor="let link of product.marketplace_links"
+              class="mkt-btn"
+              [class]="'mkt-btn ' + link.platform"
+              (click)="openUrl(link.url)">
+              {{ linkLabel(link) }}
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </button>
           </div>
@@ -178,10 +175,10 @@
       <div class="tab-panel" role="tabpanel">
 
         <div *ngIf="activeTab === 'description'" class="tab-content">
-          <p class="tab-desc">{{ product.description }}</p>
-          <div class="tag-list" *ngIf="product.tags?.length">
-            <span class="tag" *ngFor="let tag of product.tags">{{ tag }}</span>
-          </div>
+          <div class="tab-desc" *ngIf="product.description; else plainDescription" [innerHTML]="product.description"></div>
+          <ng-template #plainDescription>
+            <p class="tab-desc">{{ product.short_description }}</p>
+          </ng-template>
         </div>
 
         <div *ngIf="activeTab === 'specs'" class="tab-content">
@@ -194,33 +191,17 @@
               </tr>
               <tr *ngIf="product.category">
                 <th class="spec-key" scope="row">Category</th>
-                <td class="spec-val">{{ product.category }}</td>
-              </tr>
-              <tr *ngIf="product.subcategory">
-                <th class="spec-key" scope="row">Sub-category</th>
-                <td class="spec-val">{{ product.subcategory }}</td>
+                <td class="spec-val">{{ product.category.name }}</td>
               </tr>
               <tr *ngIf="product.sku">
                 <th class="spec-key" scope="row">SKU</th>
                 <td class="spec-val">{{ product.sku }}</td>
               </tr>
-              <tr *ngIf="product.availability">
+              <tr>
                 <th class="spec-key" scope="row">Availability</th>
                 <td class="spec-val">
-                  <span class="avail-badge">{{ product.availability }}</span>
+                  <span class="avail-badge">{{ product.stock_status === 'in_stock' ? 'In Stock' : product.stock_status === 'preorder' ? 'Available for Pre-order' : 'Out of Stock' }}</span>
                 </td>
-              </tr>
-              <tr *ngIf="product.stock">
-                <th class="spec-key" scope="row">Stock</th>
-                <td class="spec-val">{{ product.stock }} units</td>
-              </tr>
-              <tr *ngIf="product.delivery?.estimatedDays">
-                <th class="spec-key" scope="row">Delivery</th>
-                <td class="spec-val">{{ product.delivery.estimatedDays }}</td>
-              </tr>
-              <tr *ngIf="product.delivery?.codAvailable">
-                <th class="spec-key" scope="row">COD</th>
-                <td class="spec-val">Available</td>
               </tr>
             </tbody>
           </table>
@@ -228,12 +209,12 @@
 
         <div *ngIf="activeTab === 'reviews'" class="tab-content">
           <div class="review-summary">
-            <div class="review-big-score">{{ product.rating || '4.8' }}</div>
+            <div class="review-big-score">4.8</div>
             <div>
               <div class="review-stars">
-                <i *ngFor="let filled of getStarArray(product.rating || 5)" class="star" [class.filled]="filled">★</i>
+                <i *ngFor="let filled of getStarArray(4.8)" class="star" [class.filled]="filled">★</i>
               </div>
-              <div class="review-count-text">Based on {{ product.reviewCount || sampleReviews.length }} reviews</div>
+              <div class="review-count-text">Based on {{ sampleReviews.length }} reviews</div>
             </div>
           </div>
           <div class="reviews-list">
@@ -265,10 +246,10 @@
               </div>
               <div>
                 <h4>Estimated Delivery</h4>
-                <p>{{ product.delivery?.estimatedDays || '3–5 Business Days' }}</p>
+                <p>3–5 Business Days</p>
               </div>
             </div>
-            <div class="ship-item" *ngIf="product.delivery?.freeShipping">
+            <div class="ship-item">
               <div class="ship-icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="20 6 9 17 4 12"/>
@@ -276,18 +257,7 @@
               </div>
               <div>
                 <h4>Free Shipping</h4>
-                <p>Complimentary shipping on this order</p>
-              </div>
-            </div>
-            <div class="ship-item" *ngIf="product.delivery?.codAvailable">
-              <div class="ship-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
-                </svg>
-              </div>
-              <div>
-                <h4>Cash on Delivery</h4>
-                <p>Pay when your order arrives</p>
+                <p>Complimentary shipping above ₹999</p>
               </div>
             </div>
             <div class="ship-item">
@@ -322,17 +292,17 @@
 
       <div class="related-grid">
         <a *ngFor="let rp of relatedProducts"
-           [routerLink]="['/product', getProductSlug(rp)]"
+           [routerLink]="['/product', rp.slug]"
            class="related-card">
           <div class="related-img-wrap">
-            <img [src]="rp.images[0]" [alt]="rp.name" class="related-img" loading="lazy">
+            <img [src]="rp.og_image || 'assets/placeholder-product.svg'" [alt]="rp.title" class="related-img" loading="lazy">
             <span class="related-badge" *ngIf="getProductDiscount(rp) > 0">{{ getProductDiscount(rp) }}% OFF</span>
           </div>
           <div class="related-info">
-            <p class="related-name">{{ rp.name }}</p>
+            <p class="related-name">{{ rp.title }}</p>
             <div class="related-price-row">
-              <span class="related-price">₹{{ rp.price }}</span>
-              <span class="related-mrp" *ngIf="rp.mrp && rp.mrp > rp.price">₹{{ rp.mrp }}</span>
+              <span class="related-price">₹{{ getRelatedPrice(rp) }}</span>
+              <span class="related-mrp" *ngIf="rp.sale_price">₹{{ rp.price }}</span>
             </div>
           </div>
         </a>

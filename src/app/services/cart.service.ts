@@ -1,11 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
 
 export interface CartItem {
-  id: number;
+  id: string;
   name: string;
   price: number;
   quantity: number;
+  image: string;
+}
+
+/** What a caller must provide to add something to the cart — decoupled from any particular Product shape. */
+export interface AddToCartInput {
+  id: string;
+  name: string;
+  price: number;
   image: string;
 }
 
@@ -15,6 +24,7 @@ export interface CartItem {
 export class CartService {
 
   private storageKey = 'my_cart';
+  private isBrowser: boolean;
 
   private cartOpen = new BehaviorSubject<boolean>(false);
   cartOpen$ = this.cartOpen.asObservable();
@@ -22,7 +32,8 @@ export class CartService {
   private cartItems = new BehaviorSubject<CartItem[]>([]);
   cartItems$ = this.cartItems.asObservable();
 
-  constructor() {
+  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+    this.isBrowser = isPlatformBrowser(platformId);
     this.loadCart();
   }
 
@@ -39,7 +50,9 @@ export class CartService {
   }
 
   loadCart() {
-    const data = localStorage?.getItem(this.storageKey);
+    if (!this.isBrowser) return;
+
+    const data = localStorage.getItem(this.storageKey);
 
     if (data) {
       this.cartItems.next(JSON.parse(data));
@@ -47,15 +60,17 @@ export class CartService {
   }
 
   saveCart(items: CartItem[]) {
-    localStorage.setItem(
-      this.storageKey,
-      JSON.stringify(items)
-    );
+    if (this.isBrowser) {
+      localStorage.setItem(
+        this.storageKey,
+        JSON.stringify(items)
+      );
+    }
 
     this.cartItems.next(items);
   }
 
-  addToCart(product: any, quantity: number = 1) {
+  addToCart(product: AddToCartInput, quantity: number = 1) {
 
     const items = [...this.cartItems.value];
 
@@ -70,7 +85,7 @@ export class CartService {
         id: product.id,
         name: product.name,
         price: product.price,
-        image: product.images[0],
+        image: product.image,
         quantity: quantity
       });
     }
@@ -78,7 +93,7 @@ export class CartService {
     this.saveCart(items);
   }
 
-  removeItem(id: number) {
+  removeItem(id: string) {
 
     const items = this.cartItems.value.filter(
       item => item.id !== id
@@ -87,7 +102,7 @@ export class CartService {
     this.saveCart(items);
   }
 
-  updateQuantity(id: number, qty: number) {
+  updateQuantity(id: string, qty: number) {
 
     const items = [...this.cartItems.value];
 
@@ -108,7 +123,9 @@ export class CartService {
   }
 
   clearCart() {
-    localStorage?.removeItem(this.storageKey);
+    if (this.isBrowser) {
+      localStorage.removeItem(this.storageKey);
+    }
     this.cartItems.next([]);
   }
 

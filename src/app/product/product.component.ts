@@ -1,32 +1,38 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
 import { ToastService } from '../common/toast/toast.service';
 import { CartService } from '../services/cart.service';
+import { ProductService } from '../services/product.service';
+import { ProductSummary, discountPercent, effectivePrice } from '../models/product.model';
 
 export interface CategoryTab {
   name: string;
+  slug: string | null;
   count: number;
 }
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
 })
-export class ProductComponent implements OnInit {
-  products: any[] = [];
-  filteredProducts: any[] = [];
+export class ProductComponent implements OnInit, OnDestroy {
+  products: ProductSummary[] = [];
+  filteredProducts: ProductSummary[] = [];
   categories: CategoryTab[] = [];
   activeCategory = 'All';
   sortBy = 'popularity';
   isLoading = true;
   isAnimating = false;
-  wishlist = new Set<number>();
+  wishlist = new Set<string>();
+  searchQuery: string | null = null;
+
+  private destroy$ = new Subject<void>();
 
   testimonials = [
     {
@@ -76,24 +82,40 @@ export class ProductComponent implements OnInit {
   ];
 
   constructor(
-    private http: HttpClient,
+    private productService: ProductService,
     private router: Router,
+    private route: ActivatedRoute,
     private toast: ToastService,
     private cartService: CartService
   ) {}
 
   ngOnInit(): void {
-    this.loadProducts();
+    this.route.queryParamMap
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(params => {
+        this.searchQuery = params.get('search')?.trim() || null;
+        this.activeCategory = 'All';
+        this.loadProducts();
+      });
   }
 
-  trackById(_: number, item: any): number {
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  trackById(_: number, item: ProductSummary): string {
     return item.id;
   }
 
   loadProducts(): void {
-    this.http.get<any[]>(`assets/product.json?v=${Date.now()}`).subscribe({
-      next: (data) => {
-        this.products = data;
+    this.isLoading = true;
+    this.productService.list(
+      { limit: 100, sort: 'created_at', order: 'desc' },
+      this.searchQuery ? { search: this.searchQuery } : {}
+    ).subscribe({
+      next: (result) => {
+        this.products = result.items;
         this.buildCategories();
         this.applyFilters();
         this.isLoading = false;
@@ -106,23 +128,24 @@ export class ProductComponent implements OnInit {
   }
 
   buildCategories(): void {
-    const catMap = new Map<string, number>();
+    const catMap = new Map<string, { slug: string; count: number }>();
     this.products.forEach(p => {
-      if (p.category) {
-        catMap.set(p.category, (catMap.get(p.category) || 0) + 1);
+      if (p.category_name) {
+        const existing = catMap.get(p.category_name);
+        catMap.set(p.category_name, { slug: p.category_slug, count: (existing?.count ?? 0) + 1 });
       }
     });
 
-    const trendingCount = this.products.filter(p => p.isTrending).length;
-    const featuredCount = this.products.filter(p => p.isFeatured).length;
+    const trendingCount = this.products.filter(p => p.bestseller).length;
+    const featuredCount = this.products.filter(p => p.featured).length;
 
     this.categories = [
-      { name: 'All', count: this.products.length },
-      ...Array.from(catMap.entries()).map(([name, count]) => ({ name, count })),
+      { name: 'All', slug: null, count: this.products.length },
+      ...Array.from(catMap.entries()).map(([name, { slug, count }]) => ({ name, slug, count })),
     ];
 
-    if (trendingCount > 0) this.categories.push({ name: 'Trending', count: trendingCount });
-    if (featuredCount > 0) this.categories.push({ name: 'Featured', count: featuredCount });
+    if (trendingCount > 0) this.categories.push({ name: 'Trending', slug: null, count: trendingCount });
+    if (featuredCount > 0) this.categories.push({ name: 'Featured', slug: null, count: featuredCount });
   }
 
   setCategory(cat: string): void {
@@ -136,20 +159,19 @@ export class ProductComponent implements OnInit {
   }
 
   applyFilters(): void {
-    let filtered: any[];
+    let filtered: ProductSummary[];
     switch (this.activeCategory) {
-      case 'Trending':  filtered = this.products.filter(p => p.isTrending); break;
-      case 'Featured':  filtered = this.products.filter(p => p.isFeatured); break;
+      case 'Trending':  filtered = this.products.filter(p => p.bestseller); break;
+      case 'Featured':  filtered = this.products.filter(p => p.featured); break;
       case 'All':       filtered = [...this.products]; break;
-      default:          filtered = this.products.filter(p => p.category === this.activeCategory);
+      default:          filtered = this.products.filter(p => p.category_name === this.activeCategory);
     }
 
     switch (this.sortBy) {
-      case 'price-asc':  filtered.sort((a, b) => (a.price || 0) - (b.price || 0)); break;
-      case 'price-desc': filtered.sort((a, b) => (b.price || 0) - (a.price || 0)); break;
-      case 'rating':     filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0)); break;
-      case 'newest':     filtered.sort((a, b) => b.id - a.id); break;
-      default:           filtered.sort((a, b) => (b.soldCount || 0) - (a.soldCount || 0));
+      case 'price-asc':  filtered.sort((a, b) => effectivePrice(a) - effectivePrice(b)); break;
+      case 'price-desc': filtered.sort((a, b) => effectivePrice(b) - effectivePrice(a)); break;
+      case 'newest':     filtered.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()); break;
+      default:           break; // "popularity" — no such signal from the API yet, keep server-provided order
     }
 
     this.filteredProducts = filtered;
@@ -159,7 +181,7 @@ export class ProductComponent implements OnInit {
     this.applyFilters();
   }
 
-  toggleWishlist(id: number, event: Event): void {
+  toggleWishlist(id: string, event: Event): void {
     event.stopPropagation();
     event.preventDefault();
     if (this.wishlist.has(id)) {
@@ -171,41 +193,42 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  isInWishlist(id: number): boolean {
+  isInWishlist(id: string): boolean {
     return this.wishlist.has(id);
   }
 
-  addToCart(product: any, event?: Event): void {
+  addToCart(product: ProductSummary, event?: Event): void {
     if (event) {
       event.stopPropagation();
       event.preventDefault();
     }
-    this.cartService.addToCart(product, 1);
-    this.toast.cart(product);
+    const cartInput = {
+      id: product.id,
+      name: product.title,
+      price: effectivePrice(product),
+      image: product.og_image ?? ''
+    };
+    this.cartService.addToCart(cartInput, 1);
+    this.toast.cart({ name: product.title, image: product.og_image ?? '' });
   }
 
-  getProductSlug(product: any): string {
-    const nameSlug = (product.name || '')
-      .toLowerCase()
-      .replace(/\s+/g, '-')
-      .replace(/[^\w-]+/g, '');
-    return `${product.id}-${nameSlug}`;
+  getDisplayPrice(product: ProductSummary): number {
+    return effectivePrice(product);
   }
 
-  getDiscount(product: any): number {
-    if (product.discount) return product.discount;
-    if (product.mrp && product.price && product.mrp > product.price) {
-      return Math.round((1 - product.price / product.mrp) * 100);
-    }
-    return 0;
+  getDiscount(product: ProductSummary): number {
+    return discountPercent(product);
   }
 
-  getStars(rating: number): string[] {
-    return Array(5).fill('').map((_, i) => {
-      if (i < Math.floor(rating)) return 'full';
-      if (i < rating) return 'half';
-      return 'empty';
-    });
+  getBadgeLabel(product: ProductSummary): string | null {
+    if (product.bestseller) return 'Bestseller';
+    if (product.new_arrival) return 'New';
+    if (product.featured) return 'Featured';
+    return null;
+  }
+
+  clearSearch(): void {
+    this.router.navigate(['/']);
   }
 
   scrollToProducts(): void {

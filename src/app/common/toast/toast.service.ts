@@ -16,12 +16,12 @@ export class ToastService {
   private toastsSubject = new BehaviorSubject<Toast[]>([]);
   toasts$ = this.toastsSubject.asObservable();
 
-  cart(product: any): void {
+  cart(product: { name: string; image?: string }): void {
     this.add({
       type: 'cart',
       message: 'Added to cart!',
       productName: product.name,
-      productImage: product.images?.[0] || '',
+      productImage: product.image || '',
       duration: 3500
     });
   }
