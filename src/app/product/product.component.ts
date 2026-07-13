@@ -6,7 +6,9 @@ import { Subject, takeUntil } from 'rxjs';
 import { ToastService } from '../common/toast/toast.service';
 import { CartService } from '../services/cart.service';
 import { ProductService } from '../services/product.service';
+import { SettingsService } from '../services/settings.service';
 import { ProductSummary, discountPercent, effectivePrice } from '../models/product.model';
+import { SiteSettings } from '../models/settings.model';
 
 export interface CategoryTab {
   name: string;
@@ -31,6 +33,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   isAnimating = false;
   wishlist = new Set<string>();
   searchQuery: string | null = null;
+  siteSettings: SiteSettings | null = null;
 
   private destroy$ = new Subject<void>();
 
@@ -83,6 +86,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   constructor(
     private productService: ProductService,
+    private settingsService: SettingsService,
     private router: Router,
     private route: ActivatedRoute,
     private toast: ToastService,
@@ -97,6 +101,11 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.activeCategory = 'All';
         this.loadProducts();
       });
+
+    this.settingsService.get().subscribe({
+      next: (settings) => (this.siteSettings = settings),
+      error: () => void 0 // hero banner is a nice-to-have; fall back to the default hero on failure
+    });
   }
 
   ngOnDestroy(): void {

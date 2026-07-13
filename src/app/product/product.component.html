@@ -13,13 +13,24 @@
           <span class="eyebrow-dot"></span>
           Handcrafted Since 1965 · Firozabad
         </span>
-        <h1 class="hero-heading">
-          Where <em>Tradition</em><br>Meets Timeless<br>Elegance
-        </h1>
-        <p class="hero-subtext">
-          Discover authentic handcrafted bangles and glass art from Firozabad's
-          master artisans. Each piece tells a story of heritage and craftsmanship.
-        </p>
+        <ng-container *ngIf="siteSettings?.hero_banner_title; else defaultHeading">
+          <h1 class="hero-heading">{{ siteSettings?.hero_banner_title }}</h1>
+        </ng-container>
+        <ng-template #defaultHeading>
+          <h1 class="hero-heading">
+            Where <em>Tradition</em><br>Meets Timeless<br>Elegance
+          </h1>
+        </ng-template>
+
+        <ng-container *ngIf="siteSettings?.hero_banner_subtitle; else defaultSubtext">
+          <p class="hero-subtext">{{ siteSettings?.hero_banner_subtitle }}</p>
+        </ng-container>
+        <ng-template #defaultSubtext>
+          <p class="hero-subtext">
+            Discover authentic handcrafted bangles and glass art from Firozabad's
+            master artisans. Each piece tells a story of heritage and craftsmanship.
+          </p>
+        </ng-template>
         <div class="hero-actions">
           <button class="btn-hero-primary" (click)="scrollToProducts()">
             Explore Collection
@@ -50,7 +61,13 @@
       </div>
 
       <div class="hero-visual">
-        <div class="rings-container">
+        <img
+          *ngIf="siteSettings?.hero_banner_url"
+          [src]="siteSettings?.hero_banner_url"
+          alt="Firozabad Bangles"
+          class="hero-banner-img"
+        />
+        <div class="rings-container" *ngIf="!siteSettings?.hero_banner_url">
           <div class="ring ring-outer"></div>
           <div class="ring ring-mid"></div>
           <div class="ring ring-inner"></div>
@@ -218,7 +235,7 @@
 
         <div class="card-img-wrap" [routerLink]="['/product', product.slug]">
           <img
-           [src]="product.images?.[0]?.image_url  || 'assets/placeholder-product.svg'"
+            [src]="product.og_image || 'assets/placeholder-product.svg'"
             [alt]="product.title"
             class="card-img img-primary"
             loading="lazy"
